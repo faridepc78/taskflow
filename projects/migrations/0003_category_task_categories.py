@@ -4,22 +4,31 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('projects', '0002_task'),
+        ("projects", "0002_task"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, unique=True)),
             ],
         ),
         migrations.AddField(
-            model_name='task',
-            name='categories',
-            field=models.ManyToManyField(blank=True, related_name='tasks', to='projects.category'),
+            model_name="task",
+            name="categories",
+            field=models.ManyToManyField(
+                blank=True, related_name="tasks", to="projects.category"
+            ),
         ),
     ]

@@ -2,7 +2,7 @@ import secrets
 
 from django.core.cache import cache
 
-from .tasks import (
+from ..tasks import (
     send_otp_email_task,
     send_password_reset_otp_email_task,
 )

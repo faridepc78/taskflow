@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models import Count, Q, QuerySet
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 from ..models import Project
 
@@ -43,6 +44,7 @@ def get_archived_projects_for_user(user: User) -> QuerySet[Project]:
 
 def get_dashboard_stats(user: User) -> dict:
     projects = Project.objects.filter(owner=user)
+    today = timezone.localdate()
 
     task_stats = projects.aggregate(
         total_projects=Count(
@@ -64,6 +66,14 @@ def get_dashboard_stats(user: User) -> dict:
             filter=Q(
                 is_archived=False,
                 tasks__status="done",
+            ),
+        ),
+        overdue_tasks=Count(
+            "tasks",
+            filter=(
+                Q(is_archived=False)
+                & Q(tasks__due_date__lt=today)
+                & ~Q(tasks__status="done")
             ),
         ),
     )

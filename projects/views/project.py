@@ -12,6 +12,7 @@ from ..selectors.project import (
     get_archived_projects_for_user,
     get_project_for_user,
 )
+from ..selectors.task import DEADLINE_FILTERS, get_filtered_project_tasks
 from ..services import archive_project, restore_project
 
 
@@ -50,35 +51,20 @@ def project_detail(request, pk):
         user=user,
     )
 
-    tasks = project.tasks.prefetch_related("categories").all()
-
     search = request.GET.get("search")
     status = request.GET.get("status")
     priority = request.GET.get("priority")
+    deadline = request.GET.get("deadline")
     ordering = request.GET.get("ordering", "-created_at")
 
-    if search:
-        tasks = tasks.filter(title__icontains=search)
-
-    if status:
-        tasks = tasks.filter(status=status)
-
-    if priority:
-        tasks = tasks.filter(priority=priority)
-
-    allowed_ordering = {
-        "created_at",
-        "-created_at",
-        "due_date",
-        "-due_date",
-        "title",
-        "-title",
-    }
-
-    if ordering not in allowed_ordering:
-        ordering = "-created_at"
-
-    tasks = tasks.order_by(ordering)
+    tasks, ordering = get_filtered_project_tasks(
+        project,
+        search=search,
+        status=status,
+        priority=priority,
+        deadline=deadline,
+        ordering=ordering,
+    )
 
     total_tasks = project.tasks.count()
     completed_tasks = project.tasks.filter(status=Task.Status.DONE).count()
@@ -95,9 +81,11 @@ def project_detail(request, pk):
             "tasks": tasks,
             "statuses": Task.Status.choices,
             "priorities": Task.Priority.choices,
+            "deadline_filters": DEADLINE_FILTERS,
             "current_search": search or "",
             "current_status": status or "",
             "current_priority": priority or "",
+            "current_deadline": deadline or "",
             "current_ordering": ordering,
             "progress_percentage": progress_percentage,
             "total_tasks": total_tasks,

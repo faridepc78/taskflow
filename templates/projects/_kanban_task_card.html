@@ -1,0 +1,59 @@
+<article
+    class="kanban-task-card{% if task.is_overdue %} kanban-task-overdue{% elif task.is_due_today %} kanban-task-due-today{% endif %}"
+    draggable="true"
+    data-task-id="{{ task.pk }}"
+    data-status="{{ task.status }}"
+    data-status-url="{% url 'projects:task-change-status' task.pk %}"
+    data-due-state="{{ task.due_state }}"
+    data-due-date="{{ task.due_date|date:'M j, Y' }}"
+>
+    <div class="d-flex justify-content-between gap-2 align-items-start">
+        <h6 class="fw-bold mb-1">{{ task.title }}</h6>
+        <span class="badge kanban-priority kanban-priority-{{ task.priority }}">
+            {{ task.get_priority_display }}
+        </span>
+    </div>
+
+    {% if task.description %}
+        <p class="text-secondary small mb-2 kanban-task-description">
+            {{ task.description|truncatechars:100 }}
+        </p>
+    {% endif %}
+
+    {% if task.due_date %}
+        <div class="kanban-deadline small mb-2{% if task.is_overdue %} is-overdue{% elif task.is_due_today %} is-due-today{% else %} text-secondary{% endif %}">
+            {% if task.is_overdue %}
+                Overdue · {{ task.due_date }}
+            {% elif task.is_due_today %}
+                Due today · {{ task.due_date }}
+            {% else %}
+                Due {{ task.due_date }}
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="mb-3">
+        {% for category in task.categories.all %}
+            <span class="badge text-bg-secondary me-1 mb-1">
+                {{ category.name }}
+            </span>
+        {% endfor %}
+    </div>
+
+    <div class="d-flex gap-2">
+        <a
+            href="{% url 'projects:task-update' task.pk %}"
+            class="btn btn-outline-primary btn-sm"
+            draggable="false"
+        >
+            Edit
+        </a>
+        <a
+            href="{% url 'projects:task-delete' task.pk %}"
+            class="btn btn-outline-danger btn-sm"
+            draggable="false"
+        >
+            Delete
+        </a>
+    </div>
+</article>

@@ -48,6 +48,37 @@
         }
     };
 
+    const refreshDeadlineState = (card, status) => {
+        const deadline = card.querySelector(".kanban-deadline");
+
+        if (!deadline) {
+            return;
+        }
+
+        const dueState = card.dataset.dueState;
+        const dueDate = card.dataset.dueDate;
+
+        card.classList.remove("kanban-task-overdue", "kanban-task-due-today");
+        deadline.classList.remove("is-overdue", "is-due-today", "text-secondary");
+
+        if (status !== "done" && dueState === "overdue") {
+            card.classList.add("kanban-task-overdue");
+            deadline.classList.add("is-overdue");
+            deadline.textContent = `Overdue · ${dueDate}`;
+            return;
+        }
+
+        if (status !== "done" && dueState === "today") {
+            card.classList.add("kanban-task-due-today");
+            deadline.classList.add("is-due-today");
+            deadline.textContent = `Due today · ${dueDate}`;
+            return;
+        }
+
+        deadline.classList.add("text-secondary");
+        deadline.textContent = `Due ${dueDate}`;
+    };
+
     const saveStatus = async (card, status) => {
         const formData = new FormData();
         formData.append("status", status);
@@ -120,10 +151,18 @@
             try {
                 const data = await saveStatus(draggedCard, newStatus);
                 updateProjectProgress(data);
+                refreshDeadlineState(draggedCard, newStatus);
 
                 const activeStatusFilter = board.dataset.activeStatusFilter;
+                const activeDeadlineFilter = board.dataset.activeDeadlineFilter;
 
-                if (activeStatusFilter && activeStatusFilter !== newStatus) {
+                const noLongerMatchesStatus =
+                    activeStatusFilter && activeStatusFilter !== newStatus;
+                const noLongerMatchesDeadline =
+                    newStatus === "done" &&
+                    ["overdue", "today", "upcoming"].includes(activeDeadlineFilter);
+
+                if (noLongerMatchesStatus || noLongerMatchesDeadline) {
                     draggedCard.remove();
                 }
 

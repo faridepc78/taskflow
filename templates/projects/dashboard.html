@@ -22,16 +22,19 @@
     </div>
 
     <div class="row g-3 mb-5">
-        <div class="col-md-3">
+        <div class="col-md-6 col-xl">
             <div class="card border-0 shadow-sm h-100"><div class="card-body"><div class="text-secondary small">Active Projects</div><div class="fs-2 fw-bold">{{ stats.total_projects }}</div></div></div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-6 col-xl">
             <div class="card border-0 shadow-sm h-100"><div class="card-body"><div class="text-secondary small">Total Tasks</div><div class="fs-2 fw-bold">{{ stats.total_tasks }}</div></div></div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-6 col-xl">
             <div class="card border-0 shadow-sm h-100"><div class="card-body"><div class="text-secondary small">Completed Tasks</div><div class="fs-2 fw-bold">{{ stats.completed_tasks }}</div></div></div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-6 col-xl">
+            <div class="card border-0 shadow-sm h-100"><div class="card-body"><div class="text-secondary small">Overdue Tasks</div><div class="fs-2 fw-bold text-danger">{{ stats.overdue_tasks }}</div></div></div>
+        </div>
+        <div class="col-md-6 col-xl">
             <div class="card border-0 shadow-sm h-100"><div class="card-body"><div class="text-secondary small">Completion Rate</div><div class="fs-2 fw-bold">{{ stats.completion_rate }}%</div></div></div>
         </div>
     </div>

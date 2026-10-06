@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 class Project(models.Model):
@@ -73,6 +74,29 @@ class Task(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def due_state(self) -> str:
+        if not self.due_date:
+            return "none"
+
+        today = timezone.localdate()
+
+        if self.due_date < today:
+            return "overdue"
+
+        if self.due_date == today:
+            return "today"
+
+        return "upcoming"
+
+    @property
+    def is_overdue(self) -> bool:
+        return self.status != self.Status.DONE and self.due_state == "overdue"
+
+    @property
+    def is_due_today(self) -> bool:
+        return self.status != self.Status.DONE and self.due_state == "today"
 
     def __str__(self):
         return self.title

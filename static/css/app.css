@@ -164,3 +164,26 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+
+.kanban-task-overdue {
+    border-color: #fca5a5;
+    box-shadow: 0 5px 18px rgba(220, 38, 38, 0.08);
+}
+
+.kanban-task-due-today {
+    border-color: #fcd34d;
+    box-shadow: 0 5px 18px rgba(217, 119, 6, 0.08);
+}
+
+.kanban-deadline {
+    font-weight: 600;
+}
+
+.kanban-deadline.is-overdue {
+    color: #dc2626;
+}
+
+.kanban-deadline.is-due-today {
+    color: #d97706;
+}

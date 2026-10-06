@@ -1,0 +1,55 @@
+body {
+    background:
+        radial-gradient(circle at top left, #eef2ff, transparent 35%),
+        #f8fafc;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 620px;
+    border-radius: 20px;
+}
+
+.brand-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #635bff;
+    color: white;
+
+    border-radius: 14px;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.form-control {
+    min-height: 46px;
+    border-radius: 10px;
+}
+
+.form-control:focus {
+    border-color: #635bff;
+    box-shadow: 0 0 0 .2rem rgba(99, 91, 255, .12);
+}
+
+.btn-primary {
+    background: #635bff;
+    border-color: #635bff;
+    border-radius: 10px;
+}
+
+.btn-primary:hover {
+    background: #5148e5;
+    border-color: #5148e5;
+}
+
+.otp-input {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 8px;
+}

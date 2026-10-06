@@ -6,7 +6,10 @@
 
 <div class="container py-5">
 
-    <div class="card border-0 shadow-sm mx-auto" style="max-width: 700px;">
+    <div
+        class="card border-0 shadow-sm mx-auto"
+        style="max-width: 700px;"
+    >
 
         <div class="card-body p-4 p-md-5">
 
@@ -22,40 +25,107 @@
                 {% csrf_token %}
 
                 <div class="mb-3">
-                    <label class="form-label">Title</label>
+
+                    <label class="form-label">
+                        Title
+                    </label>
+
                     {{ form.title }}
+
                     {% for error in form.title.errors %}
                         <div class="text-danger small mt-1">
                             {{ error }}
                         </div>
                     {% endfor %}
+
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Description</label>
+
+                    <label class="form-label">
+                        Description
+                    </label>
+
                     {{ form.description }}
+
+                    {% for error in form.description.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
                 </div>
 
                 <div class="row g-3">
 
                     <div class="col-md-4">
-                        <label class="form-label">Status</label>
+
+                        <label class="form-label">
+                            Status
+                        </label>
+
                         {{ form.status }}
+
+                        {% for error in form.status.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
                     </div>
 
                     <div class="col-md-4">
-                        <label class="form-label">Priority</label>
+
+                        <label class="form-label">
+                            Priority
+                        </label>
+
                         {{ form.priority }}
+
+                        {% for error in form.priority.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
                     </div>
 
                     <div class="col-md-4">
-                        <label class="form-label">Due date</label>
+
+                        <label class="form-label">
+                            Due date
+                        </label>
+
                         {{ form.due_date }}
+
+                        {% for error in form.due_date.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
                     </div>
 
                 </div>
 
+                <div class="mt-3">
+
+                    <label class="form-label">
+                        Categories
+                    </label>
+
+                    {{ form.categories }}
+
+                    {% for error in form.categories.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
                 <div class="mt-4">
+
                     <button
                         type="submit"
                         class="btn btn-primary"
@@ -69,6 +139,7 @@
                     >
                         Cancel
                     </a>
+
                 </div>
 
             </form>

@@ -41,4 +41,24 @@ urlpatterns = [
         views.task_delete,
         name="task-delete",
     ),
+    path(
+        "categories/",
+        views.category_list,
+        name="category-list",
+    ),
+    path(
+        "categories/create/",
+        views.category_create,
+        name="category-create",
+    ),
+    path(
+        "categories/<int:pk>/edit/",
+        views.category_update,
+        name="category-update",
+    ),
+    path(
+        "categories/<int:pk>/delete/",
+        views.category_delete,
+        name="category-delete",
+    ),
 ]

@@ -18,12 +18,23 @@
             </p>
         </div>
 
-        <a
-            href="{% url 'projects:create' %}"
-            class="btn btn-primary"
-        >
-            New project
-        </a>
+        <div class="d-flex gap-2">
+
+            <a
+                href="{% url 'projects:category-list' %}"
+                class="btn btn-outline-secondary"
+            >
+                Categories
+            </a>
+
+            <a
+                href="{% url 'projects:create' %}"
+                class="btn btn-primary"
+            >
+                New project
+            </a>
+
+        </div>
 
     </div>
 
@@ -61,15 +72,19 @@
         {% empty %}
 
             <div class="col-12">
+
                 <div class="text-center py-5">
 
-                    <h4>No projects yet</h4>
+                    <h4>
+                        No projects yet
+                    </h4>
 
                     <p class="text-secondary">
                         Create your first project.
                     </p>
 
                 </div>
+
             </div>
 
         {% endfor %}

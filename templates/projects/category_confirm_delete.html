@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Category | TaskFlow{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div
+        class="card border-0 shadow-sm mx-auto"
+        style="max-width: 550px;"
+    >
+
+        <div class="card-body p-5 text-center">
+
+            <h2 class="fw-bold">
+                Delete category?
+            </h2>
+
+            <p class="text-secondary">
+                Are you sure you want to delete
+                <strong>{{ category.name }}</strong>?
+            </p>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="btn btn-danger"
+                >
+                    Delete
+                </button>
+
+                <a
+                    href="{% url 'projects:category-list' %}"
+                    class="btn btn-outline-secondary"
+                >
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

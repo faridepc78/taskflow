@@ -4,174 +4,188 @@
 
 {% block content %}
 
-<div class="container py-5">
+    <div class="container py-5">
 
-    <div class="d-flex justify-content-between align-items-start mb-4">
+        <div class="d-flex justify-content-between align-items-start mb-4">
 
-        <div>
-            <h1 class="fw-bold">
-                {{ project.name }}
-            </h1>
+            <div>
+                <h1 class="fw-bold">
+                    {{ project.name }}
+                </h1>
 
-            <p class="text-secondary">
-                {{ project.description|default:"No description" }}
-            </p>
+                <p class="text-secondary">
+                    {{ project.description|default:"No description" }}
+                </p>
+            </div>
+
+            <div>
+                <a
+                        href="{% url 'projects:update' project.pk %}"
+                        class="btn btn-outline-primary"
+                >
+                    Edit
+                </a>
+
+                <a
+                        href="{% url 'projects:delete' project.pk %}"
+                        class="btn btn-outline-danger"
+                >
+                    Delete
+                </a>
+            </div>
+
         </div>
 
-        <div>
-            <a
-                href="{% url 'projects:update' project.pk %}"
-                class="btn btn-outline-primary"
-            >
-                Edit
-            </a>
+        <form method="get" class="row g-2 mb-4">
+
+            <div class="col-md-4">
+                <input
+                        type="text"
+                        name="search"
+                        value="{{ current_search }}"
+                        class="form-control"
+                        placeholder="Search tasks..."
+                >
+            </div>
+
+            <div class="col-md-2">
+                <select name="status" class="form-select">
+                    <option value="">All statuses</option>
+
+                    {% for value, label in statuses %}
+                        <option
+                                value="{{ value }}"
+                                {% if current_status == value %}selected{% endif %}
+                        >
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <select name="priority" class="form-select">
+                    <option value="">All priorities</option>
+
+                    {% for value, label in priorities %}
+                        <option
+                                value="{{ value }}"
+                                {% if current_priority == value %}selected{% endif %}
+                        >
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <select name="ordering" class="form-select">
+                    <option value="-created_at">Newest</option>
+                    <option value="created_at">Oldest</option>
+                    <option value="due_date">Due date</option>
+                    <option value="title">Title</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100">
+                    Filter
+                </button>
+            </div>
+
+        </form>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <h4 class="fw-bold mb-0">
+                Tasks
+            </h4>
 
             <a
-                href="{% url 'projects:delete' project.pk %}"
-                class="btn btn-outline-danger"
+                    href="{% url 'projects:task-create' project.pk %}"
+                    class="btn btn-primary btn-sm"
             >
-                Delete
+                New task
             </a>
+
         </div>
 
-    </div>
+        <div class="card border-0 shadow-sm">
 
-<form method="get" class="row g-2 mb-4">
+            <div class="card-body">
 
-    <div class="col-md-4">
-        <input
-            type="text"
-            name="search"
-            value="{{ current_search }}"
-            class="form-control"
-            placeholder="Search tasks..."
-        >
-    </div>
+                {% for task in tasks %}
 
-    <div class="col-md-2">
-        <select name="status" class="form-select">
-            <option value="">All statuses</option>
+                    <div class="border-bottom py-3">
 
-            {% for value, label in statuses %}
-                <option
-                    value="{{ value }}"
-                    {% if current_status == value %}selected{% endif %}
-                >
-                    {{ label }}
-                </option>
-            {% endfor %}
-        </select>
-    </div>
+                        <div class="d-flex justify-content-between">
 
-    <div class="col-md-2">
-        <select name="priority" class="form-select">
-            <option value="">All priorities</option>
+                            <div>
 
-            {% for value, label in priorities %}
-                <option
-                    value="{{ value }}"
-                    {% if current_priority == value %}selected{% endif %}
-                >
-                    {{ label }}
-                </option>
-            {% endfor %}
-        </select>
-    </div>
+                                <h6 class="fw-bold mb-1">
+                                    {{ task.title }}
+                                </h6>
 
-    <div class="col-md-2">
-        <select name="ordering" class="form-select">
-            <option value="-created_at">Newest</option>
-            <option value="created_at">Oldest</option>
-            <option value="due_date">Due date</option>
-            <option value="title">Title</option>
-        </select>
-    </div>
+                                <div class="small text-secondary">
+                                    {{ task.get_status_display }}
+                                    ·
+                                    {{ task.get_priority_display }}
 
-    <div class="col-md-2">
-        <button class="btn btn-primary w-100">
-            Filter
-        </button>
-    </div>
+                                    {% if task.due_date %}
+                                        · Due {{ task.due_date }}
+                                    {% endif %}
+                                </div>
 
-</form>
+                                <div class="mt-2">
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
+                                    {% for category in task.categories.all %}
+                                        <span class="badge text-bg-secondary me-1">
+            {{ category.name }}
+        </span>
+                                    {% empty %}
+                                        <span class="text-secondary small">
+            No categories
+        </span>
+                                    {% endfor %}
 
-        <h4 class="fw-bold mb-0">
-            Tasks
-        </h4>
+                                </div>
 
-        <a
-            href="{% url 'projects:task-create' project.pk %}"
-            class="btn btn-primary btn-sm"
-        >
-            New task
-        </a>
-
-    </div>
-
-    <div class="card border-0 shadow-sm">
-
-        <div class="card-body">
-
-            {% for task in tasks %}
-
-                <div class="border-bottom py-3">
-
-                    <div class="d-flex justify-content-between">
-
-                        <div>
-
-                            <h6 class="fw-bold mb-1">
-                                {{ task.title }}
-                            </h6>
-
-                            <div class="small text-secondary">
-                                {{ task.get_status_display }}
-                                ·
-                                {{ task.get_priority_display }}
-
-                                {% if task.due_date %}
-                                    · Due {{ task.due_date }}
-                                {% endif %}
                             </div>
 
-                        </div>
+                            <div>
 
-                        <div>
+                                <a
+                                        href="{% url 'projects:task-update' task.pk %}"
+                                        class="btn btn-outline-primary btn-sm"
+                                >
+                                    Edit
+                                </a>
 
-                            <a
-                                href="{% url 'projects:task-update' task.pk %}"
-                                class="btn btn-outline-primary btn-sm"
-                            >
-                                Edit
-                            </a>
+                                <a
+                                        href="{% url 'projects:task-delete' task.pk %}"
+                                        class="btn btn-outline-danger btn-sm"
+                                >
+                                    Delete
+                                </a>
 
-                            <a
-                                href="{% url 'projects:task-delete' task.pk %}"
-                                class="btn btn-outline-danger btn-sm"
-                            >
-                                Delete
-                            </a>
+                            </div>
 
                         </div>
 
                     </div>
 
-                </div>
+                {% empty %}
 
-            {% empty %}
+                    <p class="text-secondary mb-0">
+                        No tasks yet.
+                    </p>
 
-                <p class="text-secondary mb-0">
-                    No tasks yet.
-                </p>
+                {% endfor %}
 
-            {% endfor %}
+            </div>
 
         </div>
 
     </div>
-
-</div>
 
 {% endblock %}

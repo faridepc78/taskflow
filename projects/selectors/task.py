@@ -1,6 +1,7 @@
+from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 
-from ..models import Task
+from ..models import Project, Task
 
 ALLOWED_TASK_ORDERING = {
     "created_at",
@@ -12,23 +13,23 @@ ALLOWED_TASK_ORDERING = {
 }
 
 
-def get_task_for_user(user, pk):
+def get_task_for_user(*, task_id: int, user: User) -> Task:
     return get_object_or_404(
         Task,
-        pk=pk,
+        pk=task_id,
         project__owner=user,
     )
 
 
 def get_filtered_project_tasks(
-    project,
+    project: Project,
     *,
-    search=None,
-    status=None,
-    priority=None,
-    ordering="-created_at",
+    search: str | None = None,
+    status: str | None = None,
+    priority: str | None = None,
+    ordering: str = "-created_at",
 ):
-    tasks = project.tasks.all()
+    tasks = project.tasks.prefetch_related("categories").all()
 
     if search:
         tasks = tasks.filter(title__icontains=search)

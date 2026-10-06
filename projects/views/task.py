@@ -2,11 +2,15 @@ from typing import cast
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.views.decorators.http import require_POST
 
 from ..forms import TaskForm
+from ..models import Task
 from ..selectors.project import get_project_for_user
 from ..selectors.task import get_task_for_user
+from ..services import change_task_status
 
 
 @login_required
@@ -25,7 +29,6 @@ def task_create(request, project_pk):
             task = form.save(commit=False)
             task.project = project
             task.save()
-
             form.save_m2m()
 
             return redirect(
@@ -108,4 +111,48 @@ def task_delete(request, pk):
         {
             "task": task,
         },
+    )
+
+
+@require_POST
+@login_required
+def task_change_status(request, pk):
+    user = cast(User, request.user)
+
+    task = get_task_for_user(
+        task_id=pk,
+        user=user,
+    )
+
+    status = request.POST.get("status", "")
+
+    if status not in Task.Status.values:
+        return JsonResponse(
+            {
+                "success": False,
+                "message": "Invalid task status.",
+            },
+            status=400,
+        )
+
+    change_task_status(
+        task=task,
+        status=status,
+    )
+
+    total_tasks = task.project.tasks.count()
+    completed_tasks = task.project.tasks.filter(status=Task.Status.DONE).count()
+    progress_percentage = (
+        round((completed_tasks / total_tasks) * 100) if total_tasks else 0
+    )
+
+    return JsonResponse(
+        {
+            "success": True,
+            "status": task.status,
+            "status_label": task.get_status_display(),
+            "total_tasks": total_tasks,
+            "completed_tasks": completed_tasks,
+            "progress_percentage": progress_percentage,
+        }
     )

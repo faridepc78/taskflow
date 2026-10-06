@@ -53,3 +53,114 @@ body {
     font-weight: 700;
     letter-spacing: 8px;
 }
+
+.kanban-board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    align-items: start;
+}
+
+.kanban-column {
+    min-width: 0;
+    background: rgba(241, 245, 249, 0.82);
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.kanban-column-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.kanban-status-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin-right: 7px;
+    border-radius: 50%;
+}
+
+.kanban-status-todo {
+    background: #64748b;
+}
+
+.kanban-status-progress {
+    background: #f59e0b;
+}
+
+.kanban-status-done {
+    background: #22c55e;
+}
+
+.kanban-dropzone {
+    min-height: 180px;
+    padding: 12px;
+    transition: background-color .15s ease, box-shadow .15s ease;
+}
+
+.kanban-dropzone.is-drag-over {
+    background: rgba(99, 91, 255, 0.07);
+    box-shadow: inset 0 0 0 2px rgba(99, 91, 255, 0.2);
+}
+
+.kanban-task-card {
+    padding: 14px;
+    margin-bottom: 12px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+    cursor: grab;
+    transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+
+.kanban-task-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+}
+
+.kanban-task-card.is-dragging {
+    opacity: 0.45;
+    cursor: grabbing;
+}
+
+.kanban-task-description {
+    line-height: 1.45;
+}
+
+.kanban-priority {
+    font-weight: 600;
+}
+
+.kanban-priority-low {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.kanban-priority-medium {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.kanban-priority-high {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.kanban-empty {
+    padding: 24px 8px;
+    text-align: center;
+    border: 1px dashed #cbd5e1;
+    border-radius: 10px;
+}
+
+@media (max-width: 991.98px) {
+    .kanban-board {
+        grid-template-columns: 1fr;
+    }
+}

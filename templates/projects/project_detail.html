@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}{{ project.name }} | TaskFlow{% endblock %}
 
@@ -6,20 +7,19 @@
 
 <div class="container py-5">
 
-    <div class="d-flex justify-content-between align-items-start mb-4">
+    <div class="d-flex justify-content-between align-items-start mb-4 gap-3">
 
         <div>
-            <h1 class="fw-bold">
+            <h1 class="fw-bold mb-2">
                 {{ project.name }}
             </h1>
 
-            <p class="text-secondary">
+            <p class="text-secondary mb-0">
                 {{ project.description|default:"No description" }}
             </p>
         </div>
 
-        <div class="d-flex gap-2">
-
+        <div class="d-flex gap-2 flex-wrap justify-content-end">
             <a
                 href="{% url 'projects:update' project.pk %}"
                 class="btn btn-outline-primary"
@@ -48,7 +48,6 @@
             >
                 Delete
             </a>
-
         </div>
 
     </div>
@@ -59,13 +58,14 @@
             <div class="d-flex justify-content-between mb-2">
                 <strong>Project Progress</strong>
 
-                <span>
+                <span id="project-progress-count">
                     {{ completed_tasks }} / {{ total_tasks }} tasks
                 </span>
             </div>
 
             <div class="progress">
                 <div
+                    id="project-progress-bar"
                     class="progress-bar"
                     style="width: {{ progress_percentage }}%;"
                 >
@@ -90,9 +90,7 @@
 
         <div class="col-md-2">
             <select name="status" class="form-select">
-                <option value="">
-                    All statuses
-                </option>
+                <option value="">All statuses</option>
 
                 {% for value, label in statuses %}
                     <option
@@ -107,9 +105,7 @@
 
         <div class="col-md-2">
             <select name="priority" class="form-select">
-                <option value="">
-                    All priorities
-                </option>
+                <option value="">All priorities</option>
 
                 {% for value, label in priorities %}
                     <option
@@ -124,35 +120,30 @@
 
         <div class="col-md-2">
             <select name="ordering" class="form-select">
-
                 <option
                     value="-created_at"
                     {% if current_ordering == "-created_at" %}selected{% endif %}
                 >
                     Newest
                 </option>
-
                 <option
                     value="created_at"
                     {% if current_ordering == "created_at" %}selected{% endif %}
                 >
                     Oldest
                 </option>
-
                 <option
                     value="due_date"
                     {% if current_ordering == "due_date" %}selected{% endif %}
                 >
                     Due date
                 </option>
-
                 <option
                     value="title"
                     {% if current_ordering == "title" %}selected{% endif %}
                 >
                     Title
                 </option>
-
             </select>
         </div>
 
@@ -168,10 +159,14 @@
     </form>
 
     <div class="d-flex justify-content-between align-items-center mb-3">
-
-        <h4 class="fw-bold mb-0">
-            Tasks
-        </h4>
+        <div>
+            <h4 class="fw-bold mb-1">
+                Kanban Board
+            </h4>
+            <p class="text-secondary small mb-0">
+                Drag tasks between columns to change their status.
+            </p>
+        </div>
 
         <a
             href="{% url 'projects:task-create' project.pk %}"
@@ -179,93 +174,234 @@
         >
             New task
         </a>
-
     </div>
 
-    <div class="card border-0 shadow-sm">
+    <div
+        id="kanban-board"
+        class="kanban-board"
+        data-active-status-filter="{{ current_status }}"
+    >
 
-        <div class="card-body">
+        <section class="kanban-column" data-status="todo">
+            <div class="kanban-column-header">
+                <div>
+                    <span class="kanban-status-dot kanban-status-todo"></span>
+                    <strong>To Do</strong>
+                </div>
+                <span class="badge text-bg-light kanban-count">0</span>
+            </div>
 
-            {% for task in tasks %}
-
-                <div class="border-bottom py-3">
-
-                    <div class="d-flex justify-content-between">
-
-                        <div>
-
-                            <h6 class="fw-bold mb-1">
-                                {{ task.title }}
-                            </h6>
-
-                            <div class="small text-secondary">
-
-                                {{ task.get_status_display }}
-
-                                ·
-
-                                {{ task.get_priority_display }}
-
-                                {% if task.due_date %}
-                                    · Due {{ task.due_date }}
-                                {% endif %}
-
+            <div class="kanban-dropzone" data-status="todo">
+                {% for task in tasks %}
+                    {% if task.status == "todo" %}
+                        <article
+                            class="kanban-task-card"
+                            draggable="true"
+                            data-task-id="{{ task.pk }}"
+                            data-status="{{ task.status }}"
+                            data-status-url="{% url 'projects:task-change-status' task.pk %}"
+                        >
+                            <div class="d-flex justify-content-between gap-2 align-items-start">
+                                <h6 class="fw-bold mb-1">{{ task.title }}</h6>
+                                <span class="badge kanban-priority kanban-priority-{{ task.priority }}">
+                                    {{ task.get_priority_display }}
+                                </span>
                             </div>
 
-                            <div class="mt-2">
+                            {% if task.description %}
+                                <p class="text-secondary small mb-2 kanban-task-description">
+                                    {{ task.description|truncatechars:100 }}
+                                </p>
+                            {% endif %}
 
+                            {% if task.due_date %}
+                                <div class="small text-secondary mb-2">
+                                    Due {{ task.due_date }}
+                                </div>
+                            {% endif %}
+
+                            <div class="mb-3">
                                 {% for category in task.categories.all %}
-
-                                    <span class="badge text-bg-secondary me-1">
+                                    <span class="badge text-bg-secondary me-1 mb-1">
                                         {{ category.name }}
                                     </span>
-
-                                {% empty %}
-
-                                    <span class="text-secondary small">
-                                        No categories
-                                    </span>
-
                                 {% endfor %}
-
                             </div>
 
-                        </div>
+                            <div class="d-flex gap-2">
+                                <a
+                                    href="{% url 'projects:task-update' task.pk %}"
+                                    class="btn btn-outline-primary btn-sm"
+                                    draggable="false"
+                                >
+                                    Edit
+                                </a>
+                                <a
+                                    href="{% url 'projects:task-delete' task.pk %}"
+                                    class="btn btn-outline-danger btn-sm"
+                                    draggable="false"
+                                >
+                                    Delete
+                                </a>
+                            </div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
 
-                        <div>
-
-                            <a
-                                href="{% url 'projects:task-update' task.pk %}"
-                                class="btn btn-outline-primary btn-sm"
-                            >
-                                Edit
-                            </a>
-
-                            <a
-                                href="{% url 'projects:task-delete' task.pk %}"
-                                class="btn btn-outline-danger btn-sm"
-                            >
-                                Delete
-                            </a>
-
-                        </div>
-
-                    </div>
-
+                <div class="kanban-empty text-secondary small">
+                    No tasks
                 </div>
+            </div>
+        </section>
 
-            {% empty %}
+        <section class="kanban-column" data-status="in_progress">
+            <div class="kanban-column-header">
+                <div>
+                    <span class="kanban-status-dot kanban-status-progress"></span>
+                    <strong>In Progress</strong>
+                </div>
+                <span class="badge text-bg-light kanban-count">0</span>
+            </div>
 
-                <p class="text-secondary mb-0">
-                    No tasks found.
-                </p>
+            <div class="kanban-dropzone" data-status="in_progress">
+                {% for task in tasks %}
+                    {% if task.status == "in_progress" %}
+                        <article
+                            class="kanban-task-card"
+                            draggable="true"
+                            data-task-id="{{ task.pk }}"
+                            data-status="{{ task.status }}"
+                            data-status-url="{% url 'projects:task-change-status' task.pk %}"
+                        >
+                            <div class="d-flex justify-content-between gap-2 align-items-start">
+                                <h6 class="fw-bold mb-1">{{ task.title }}</h6>
+                                <span class="badge kanban-priority kanban-priority-{{ task.priority }}">
+                                    {{ task.get_priority_display }}
+                                </span>
+                            </div>
 
-            {% endfor %}
+                            {% if task.description %}
+                                <p class="text-secondary small mb-2 kanban-task-description">
+                                    {{ task.description|truncatechars:100 }}
+                                </p>
+                            {% endif %}
 
-        </div>
+                            {% if task.due_date %}
+                                <div class="small text-secondary mb-2">
+                                    Due {{ task.due_date }}
+                                </div>
+                            {% endif %}
+
+                            <div class="mb-3">
+                                {% for category in task.categories.all %}
+                                    <span class="badge text-bg-secondary me-1 mb-1">
+                                        {{ category.name }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a
+                                    href="{% url 'projects:task-update' task.pk %}"
+                                    class="btn btn-outline-primary btn-sm"
+                                    draggable="false"
+                                >
+                                    Edit
+                                </a>
+                                <a
+                                    href="{% url 'projects:task-delete' task.pk %}"
+                                    class="btn btn-outline-danger btn-sm"
+                                    draggable="false"
+                                >
+                                    Delete
+                                </a>
+                            </div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="kanban-empty text-secondary small">
+                    No tasks
+                </div>
+            </div>
+        </section>
+
+        <section class="kanban-column" data-status="done">
+            <div class="kanban-column-header">
+                <div>
+                    <span class="kanban-status-dot kanban-status-done"></span>
+                    <strong>Done</strong>
+                </div>
+                <span class="badge text-bg-light kanban-count">0</span>
+            </div>
+
+            <div class="kanban-dropzone" data-status="done">
+                {% for task in tasks %}
+                    {% if task.status == "done" %}
+                        <article
+                            class="kanban-task-card"
+                            draggable="true"
+                            data-task-id="{{ task.pk }}"
+                            data-status="{{ task.status }}"
+                            data-status-url="{% url 'projects:task-change-status' task.pk %}"
+                        >
+                            <div class="d-flex justify-content-between gap-2 align-items-start">
+                                <h6 class="fw-bold mb-1">{{ task.title }}</h6>
+                                <span class="badge kanban-priority kanban-priority-{{ task.priority }}">
+                                    {{ task.get_priority_display }}
+                                </span>
+                            </div>
+
+                            {% if task.description %}
+                                <p class="text-secondary small mb-2 kanban-task-description">
+                                    {{ task.description|truncatechars:100 }}
+                                </p>
+                            {% endif %}
+
+                            {% if task.due_date %}
+                                <div class="small text-secondary mb-2">
+                                    Due {{ task.due_date }}
+                                </div>
+                            {% endif %}
+
+                            <div class="mb-3">
+                                {% for category in task.categories.all %}
+                                    <span class="badge text-bg-secondary me-1 mb-1">
+                                        {{ category.name }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a
+                                    href="{% url 'projects:task-update' task.pk %}"
+                                    class="btn btn-outline-primary btn-sm"
+                                    draggable="false"
+                                >
+                                    Edit
+                                </a>
+                                <a
+                                    href="{% url 'projects:task-delete' task.pk %}"
+                                    class="btn btn-outline-danger btn-sm"
+                                    draggable="false"
+                                >
+                                    Delete
+                                </a>
+                            </div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="kanban-empty text-secondary small">
+                    No tasks
+                </div>
+            </div>
+        </section>
 
     </div>
 
 </div>
+
+<script src="{% static 'js/kanban.js' %}" defer></script>
 
 {% endblock %}

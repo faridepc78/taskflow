@@ -20,6 +20,11 @@ urlpatterns = [
     ),
     path("tasks/<int:pk>/edit/", views.task_update, name="task-update"),
     path("tasks/<int:pk>/delete/", views.task_delete, name="task-delete"),
+    path(
+        "tasks/<int:pk>/status/",
+        views.task_change_status,
+        name="task-change-status",
+    ),
     path("categories/", views.category_list, name="category-list"),
     path("categories/create/", views.category_create, name="category-create"),
     path(

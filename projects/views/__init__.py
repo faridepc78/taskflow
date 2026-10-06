@@ -15,6 +15,7 @@ from .project import (
     project_update,
 )
 from .task import (
+    task_change_status,
     task_create,
     task_delete,
     task_update,
@@ -33,6 +34,7 @@ __all__ = [
     "project_detail",
     "project_restore",
     "project_update",
+    "task_change_status",
     "task_create",
     "task_delete",
     "task_update",

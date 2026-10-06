@@ -1,13 +1,22 @@
+from typing import cast
+
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
 from ..forms import TaskForm
-from ..selectors import get_project_for_user, get_task_for_user
+from ..selectors.project import get_project_for_user
+from ..selectors.task import get_task_for_user
 
 
 @login_required
 def task_create(request, project_pk):
-    project = get_project_for_user(request.user, project_pk)
+    user = cast(User, request.user)
+
+    project = get_project_for_user(
+        project_id=project_pk,
+        user=user,
+    )
 
     if request.method == "POST":
         form = TaskForm(request.POST)
@@ -39,7 +48,12 @@ def task_create(request, project_pk):
 
 @login_required
 def task_update(request, pk):
-    task = get_task_for_user(request.user, pk)
+    user = cast(User, request.user)
+
+    task = get_task_for_user(
+        task_id=pk,
+        user=user,
+    )
 
     if request.method == "POST":
         form = TaskForm(
@@ -54,7 +68,6 @@ def task_update(request, pk):
                 "projects:detail",
                 pk=task.project.pk,
             )
-
     else:
         form = TaskForm(instance=task)
 
@@ -72,7 +85,12 @@ def task_update(request, pk):
 
 @login_required
 def task_delete(request, pk):
-    task = get_task_for_user(request.user, pk)
+    user = cast(User, request.user)
+
+    task = get_task_for_user(
+        task_id=pk,
+        user=user,
+    )
 
     project_pk = task.project.pk
 

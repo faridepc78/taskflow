@@ -6,51 +6,22 @@ app_name = "projects"
 
 urlpatterns = [
     path("", views.dashboard, name="dashboard"),
-    path(
-        "projects/create/",
-        views.project_create,
-        name="create",
-    ),
-    path(
-        "projects/<int:pk>/",
-        views.project_detail,
-        name="detail",
-    ),
-    path(
-        "projects/<int:pk>/edit/",
-        views.project_update,
-        name="update",
-    ),
-    path(
-        "projects/<int:pk>/delete/",
-        views.project_delete,
-        name="delete",
-    ),
+    path("projects/create/", views.project_create, name="create"),
+    path("projects/archived/", views.archived_projects, name="archived"),
+    path("projects/<int:pk>/", views.project_detail, name="detail"),
+    path("projects/<int:pk>/edit/", views.project_update, name="update"),
+    path("projects/<int:pk>/delete/", views.project_delete, name="delete"),
+    path("projects/<int:pk>/archive/", views.project_archive, name="archive"),
+    path("projects/<int:pk>/restore/", views.project_restore, name="restore"),
     path(
         "projects/<int:project_pk>/tasks/create/",
         views.task_create,
         name="task-create",
     ),
-    path(
-        "tasks/<int:pk>/edit/",
-        views.task_update,
-        name="task-update",
-    ),
-    path(
-        "tasks/<int:pk>/delete/",
-        views.task_delete,
-        name="task-delete",
-    ),
-    path(
-        "categories/",
-        views.category_list,
-        name="category-list",
-    ),
-    path(
-        "categories/create/",
-        views.category_create,
-        name="category-create",
-    ),
+    path("tasks/<int:pk>/edit/", views.task_update, name="task-update"),
+    path("tasks/<int:pk>/delete/", views.task_delete, name="task-delete"),
+    path("categories/", views.category_list, name="category-list"),
+    path("categories/create/", views.category_create, name="category-create"),
     path(
         "categories/<int:pk>/edit/",
         views.category_update,

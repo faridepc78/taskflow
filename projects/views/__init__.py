@@ -6,9 +6,12 @@ from .category import (
 )
 from .dashboard import dashboard
 from .project import (
+    archived_projects,
+    project_archive,
     project_create,
     project_delete,
     project_detail,
+    project_restore,
     project_update,
 )
 from .task import (
@@ -18,14 +21,17 @@ from .task import (
 )
 
 __all__ = [
+    "archived_projects",
     "category_create",
     "category_delete",
     "category_list",
     "category_update",
     "dashboard",
+    "project_archive",
     "project_create",
     "project_delete",
     "project_detail",
+    "project_restore",
     "project_update",
     "task_create",
     "task_delete",

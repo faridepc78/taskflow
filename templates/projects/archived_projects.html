@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Archived Projects | TaskFlow{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-1">Archived Projects</h1>
+            <p class="text-secondary mb-0">Restore projects whenever you need them.</p>
+        </div>
+        <a href="{% url 'projects:dashboard' %}" class="btn btn-outline-secondary">Back to dashboard</a>
+    </div>
+
+    <div class="row g-4">
+        {% for project in projects %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="fw-bold">{{ project.name }}</h5>
+                        <p class="text-secondary">{{ project.description|default:"No description" }}</p>
+                        <form method="post" action="{% url 'projects:restore' project.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary btn-sm">Restore</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12"><div class="text-center py-5"><h4>No archived projects</h4><p class="text-secondary">Archived projects will appear here.</p></div></div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

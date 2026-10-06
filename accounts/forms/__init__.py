@@ -5,12 +5,14 @@ from .password import (
     ResetPasswordForm,
     VerifyPasswordResetForm,
 )
+from .profile import ProfileForm
 from .registration import RegisterForm, VerifyEmailForm
 
 __all__ = [
     "ChangePasswordForm",
     "ForgotPasswordForm",
     "LoginForm",
+    "ProfileForm",
     "RegisterForm",
     "ResetPasswordForm",
     "VerifyEmailForm",

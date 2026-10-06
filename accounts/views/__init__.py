@@ -6,6 +6,7 @@ from .password_reset import (
     reset_password,
     verify_password_reset,
 )
+from .profile import profile
 from .registration import register, resend_registration_otp, verify_email
 
 __all__ = [
@@ -13,6 +14,7 @@ __all__ = [
     "forgot_password",
     "login_view",
     "logout_view",
+    "profile",
     "register",
     "resend_password_reset_otp",
     "resend_registration_otp",

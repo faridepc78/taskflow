@@ -6,6 +6,7 @@ app_name = "projects"
 
 urlpatterns = [
     path("", views.dashboard, name="dashboard"),
+    path("activity/", views.activity_list, name="activity-list"),
     path("projects/create/", views.project_create, name="create"),
     path("projects/archived/", views.archived_projects, name="archived"),
     path("projects/<int:pk>/", views.project_detail, name="detail"),

@@ -1,3 +1,4 @@
+from .activity import activity_list
 from .attachment import attachment_delete, attachment_upload
 from .category import (
     category_create,
@@ -23,6 +24,7 @@ from .task import (
 )
 
 __all__ = [
+    "activity_list",
     "archived_projects",
     "attachment_delete",
     "attachment_upload",

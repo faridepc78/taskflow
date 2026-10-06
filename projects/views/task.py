@@ -7,10 +7,10 @@ from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
 from ..forms import TaskForm
-from ..models import Task
+from ..models import Activity, Task
 from ..selectors.project import get_project_for_user
 from ..selectors.task import get_task_for_user
-from ..services import change_task_status
+from ..services import change_task_status, log_activity
 
 
 @login_required
@@ -30,6 +30,13 @@ def task_create(request, project_pk):
             task.project = project
             task.save()
             form.save_m2m()
+            log_activity(
+                project=project,
+                actor=user,
+                action=Activity.Action.TASK_CREATED,
+                description=f'Created task "{task.title}".',
+                task=task,
+            )
 
             return redirect(
                 "projects:detail",
@@ -65,7 +72,14 @@ def task_update(request, pk):
         )
 
         if form.is_valid():
-            form.save()
+            task = form.save()
+            log_activity(
+                project=task.project,
+                actor=user,
+                action=Activity.Action.TASK_UPDATED,
+                description=f'Updated task "{task.title}".',
+                task=task,
+            )
 
             return redirect(
                 "projects:detail",
@@ -98,6 +112,13 @@ def task_delete(request, pk):
     project_pk = task.project.pk
 
     if request.method == "POST":
+        log_activity(
+            project=task.project,
+            actor=user,
+            action=Activity.Action.TASK_DELETED,
+            description=f'Deleted task "{task.title}".',
+            task=task,
+        )
         task.delete()
 
         return redirect(
@@ -135,10 +156,16 @@ def task_change_status(request, pk):
             status=400,
         )
 
-    change_task_status(
-        task=task,
-        status=status,
-    )
+    old_status = task.get_status_display()
+    change_task_status(task=task, status=status)
+    if old_status != task.get_status_display():
+        log_activity(
+            project=task.project,
+            actor=user,
+            action=Activity.Action.TASK_STATUS_CHANGED,
+            description=f'Changed task "{task.title}" status from {old_status} to {task.get_status_display()}.',
+            task=task,
+        )
 
     total_tasks = task.project.tasks.count()
     completed_tasks = task.project.tasks.filter(status=Task.Status.DONE).count()

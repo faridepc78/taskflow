@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Project, Task, TaskAttachment
+from .models import Activity, Category, Project, Task, TaskAttachment
 
 
 @admin.register(Project)
@@ -65,3 +65,41 @@ class TaskAttachmentAdmin(admin.ModelAdmin):
         "task__title",
         "task__project__name",
     )
+
+
+@admin.register(Activity)
+class ActivityAdmin(admin.ModelAdmin):
+    list_display = (
+        "action",
+        "subject_type",
+        "subject_name",
+        "actor",
+        "project",
+        "created_at",
+    )
+    list_filter = ("action", "subject_type", "created_at")
+    search_fields = (
+        "description",
+        "subject_name",
+        "actor__username",
+        "project__name",
+        "task__title",
+    )
+    readonly_fields = (
+        "project",
+        "task",
+        "actor",
+        "action",
+        "subject_type",
+        "subject_id",
+        "subject_name",
+        "description",
+        "changes",
+        "created_at",
+    )
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False

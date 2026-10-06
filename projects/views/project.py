@@ -7,13 +7,14 @@ from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
 from ..forms import ProjectForm
-from ..models import Task
+from ..models import Activity, Task
 from ..selectors.project import (
     get_archived_projects_for_user,
+    get_project_activities,
     get_project_for_user,
 )
 from ..selectors.task import DEADLINE_FILTERS, get_filtered_project_tasks
-from ..services import archive_project, restore_project
+from ..services import archive_project, log_activity, restore_project
 
 
 @login_required
@@ -27,6 +28,12 @@ def project_create(request):
             project = form.save(commit=False)
             project.owner = user
             project.save()
+            log_activity(
+                project=project,
+                actor=user,
+                action=Activity.Action.PROJECT_CREATED,
+                description=f'Created project "{project.name}".',
+            )
 
             return redirect("projects:detail", pk=project.pk)
     else:
@@ -66,6 +73,8 @@ def project_detail(request, pk):
         ordering=ordering,
     )
 
+    activities = get_project_activities(project)
+
     total_tasks = project.tasks.count()
     completed_tasks = project.tasks.filter(status=Task.Status.DONE).count()
 
@@ -90,6 +99,7 @@ def project_detail(request, pk):
             "progress_percentage": progress_percentage,
             "total_tasks": total_tasks,
             "completed_tasks": completed_tasks,
+            "activities": activities,
         },
     )
 
@@ -111,6 +121,12 @@ def project_update(request, pk):
 
         if form.is_valid():
             form.save()
+            log_activity(
+                project=project,
+                actor=user,
+                action=Activity.Action.PROJECT_UPDATED,
+                description=f'Updated project "{project.name}".',
+            )
 
             return redirect("projects:detail", pk=project.pk)
     else:
@@ -175,6 +191,12 @@ def project_archive(request, pk):
     )
 
     archive_project(project)
+    log_activity(
+        project=project,
+        actor=user,
+        action=Activity.Action.PROJECT_ARCHIVED,
+        description=f'Archived project "{project.name}".',
+    )
 
     messages.success(
         request,
@@ -195,6 +217,12 @@ def project_restore(request, pk):
     )
 
     restore_project(project)
+    log_activity(
+        project=project,
+        actor=user,
+        action=Activity.Action.PROJECT_RESTORED,
+        description=f'Restored project "{project.name}".',
+    )
 
     messages.success(
         request,

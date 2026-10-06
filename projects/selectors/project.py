@@ -87,3 +87,7 @@ def get_dashboard_stats(user: User) -> dict:
         **task_stats,
         "completion_rate": completion_rate,
     }
+
+
+def get_project_activities(project: Project, *, limit: int = 30):
+    return project.activities.select_related("actor", "task")[:limit]

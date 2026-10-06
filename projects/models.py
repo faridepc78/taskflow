@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
@@ -117,3 +119,68 @@ class TaskAttachment(models.Model):
 
     def __str__(self):
         return self.filename
+
+
+class Activity(models.Model):
+    class Action(models.TextChoices):
+        CREATED = "created", "Created"
+        UPDATED = "updated", "Updated"
+        DELETED = "deleted", "Deleted"
+        RELATION_CHANGED = "relation_changed", "Relation changed"
+
+        # Backward-compatible names used by the first activity implementation.
+        PROJECT_CREATED = "project_created", "Project created"
+        PROJECT_UPDATED = "project_updated", "Project updated"
+        PROJECT_ARCHIVED = "project_archived", "Project archived"
+        PROJECT_RESTORED = "project_restored", "Project restored"
+        TASK_CREATED = "task_created", "Task created"
+        TASK_UPDATED = "task_updated", "Task updated"
+        TASK_DELETED = "task_deleted", "Task deleted"
+        TASK_STATUS_CHANGED = "task_status_changed", "Task status changed"
+        ATTACHMENT_UPLOADED = "attachment_uploaded", "Attachment uploaded"
+        ATTACHMENT_DELETED = "attachment_deleted", "Attachment deleted"
+
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.SET_NULL,
+        related_name="activities",
+        null=True,
+        blank=True,
+    )
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.SET_NULL,
+        related_name="activities",
+        null=True,
+        blank=True,
+    )
+    actor = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        related_name="taskflow_activities",
+        null=True,
+        blank=True,
+    )
+    action = models.CharField(max_length=40, choices=Action.choices)
+    subject_type = models.CharField(max_length=100, blank=True)
+    subject_id = models.CharField(max_length=100, blank=True)
+    subject_name = models.CharField(max_length=255, blank=True)
+    description = models.CharField(max_length=500)
+    changes = models.JSONField(default=dict, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("-created_at", "-id")
+        indexes: ClassVar = [
+            models.Index(
+                fields=("subject_type", "subject_id"),
+                name="activity_subject_idx",
+            ),
+            models.Index(
+                fields=("action", "created_at"),
+                name="activity_action_date_idx",
+            ),
+        ]
+
+    def __str__(self):
+        return self.description

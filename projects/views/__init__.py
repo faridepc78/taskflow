@@ -1,3 +1,4 @@
+from .attachment import attachment_delete, attachment_upload
 from .category import (
     category_create,
     category_delete,
@@ -23,6 +24,8 @@ from .task import (
 
 __all__ = [
     "archived_projects",
+    "attachment_delete",
+    "attachment_upload",
     "category_create",
     "category_delete",
     "category_list",

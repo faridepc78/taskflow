@@ -40,7 +40,49 @@
         {% endfor %}
     </div>
 
-    <div class="d-flex gap-2">
+    {% if task.attachments.all %}
+        <div class="mb-3">
+            <div class="small fw-semibold mb-1">Attachments</div>
+
+            {% for attachment in task.attachments.all %}
+                <div class="d-flex align-items-center justify-content-between gap-2 small mb-1">
+                    <a
+                        href="{{ attachment.file.url }}"
+                        target="_blank"
+                        rel="noopener"
+                        draggable="false"
+                        class="text-truncate"
+                    >
+                        {{ attachment.filename }}
+                    </a>
+
+                    <form
+                        method="post"
+                        action="{% url 'projects:attachment-delete' attachment.pk %}"
+                        draggable="false"
+                    >
+                        {% csrf_token %}
+                        <button
+                            type="submit"
+                            class="btn btn-link btn-sm text-danger p-0"
+                            draggable="false"
+                        >
+                            Remove
+                        </button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="d-flex gap-2 flex-wrap">
+        <a
+            href="{% url 'projects:attachment-upload' task.pk %}"
+            class="btn btn-outline-secondary btn-sm"
+            draggable="false"
+        >
+            Add file
+        </a>
         <a
             href="{% url 'projects:task-update' task.pk %}"
             class="btn btn-outline-primary btn-sm"

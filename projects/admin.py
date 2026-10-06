@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Project, Task
+from .models import Category, Project, Task, TaskAttachment
 
 
 @admin.register(Project)
@@ -51,3 +51,17 @@ class TaskAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name",)
     search_fields = ("name",)
+
+
+@admin.register(TaskAttachment)
+class TaskAttachmentAdmin(admin.ModelAdmin):
+    list_display = (
+        "filename",
+        "task",
+        "uploaded_at",
+    )
+    search_fields = (
+        "file",
+        "task__title",
+        "task__project__name",
+    )

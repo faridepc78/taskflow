@@ -100,3 +100,20 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class TaskAttachment(models.Model):
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+        related_name="attachments",
+    )
+    file = models.FileField(upload_to="task_attachments/%Y/%m/")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def filename(self) -> str:
+        return self.file.name.rsplit("/", 1)[-1]
+
+    def __str__(self):
+        return self.filename

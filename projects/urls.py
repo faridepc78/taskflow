@@ -21,6 +21,16 @@ urlpatterns = [
     path("tasks/<int:pk>/edit/", views.task_update, name="task-update"),
     path("tasks/<int:pk>/delete/", views.task_delete, name="task-delete"),
     path(
+        "tasks/<int:task_pk>/attachments/upload/",
+        views.attachment_upload,
+        name="attachment-upload",
+    ),
+    path(
+        "attachments/<int:pk>/delete/",
+        views.attachment_delete,
+        name="attachment-delete",
+    ),
+    path(
         "tasks/<int:pk>/status/",
         views.task_change_status,
         name="task-change-status",

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
-from ..models import Project, Task
+from ..models import Project, Task, TaskAttachment
 
 DEADLINE_FILTERS = (
     ("overdue", "Overdue"),
@@ -29,6 +29,14 @@ def get_task_for_user(*, task_id: int, user: User) -> Task:
     )
 
 
+def get_attachment_for_user(*, attachment_id: int, user: User) -> TaskAttachment:
+    return get_object_or_404(
+        TaskAttachment,
+        pk=attachment_id,
+        task__project__owner=user,
+    )
+
+
 def get_filtered_project_tasks(
     project: Project,
     *,
@@ -38,7 +46,7 @@ def get_filtered_project_tasks(
     deadline: str | None = None,
     ordering: str = "-created_at",
 ):
-    tasks = project.tasks.prefetch_related("categories").all()
+    tasks = project.tasks.prefetch_related("categories", "attachments").all()
 
     if search:
         tasks = tasks.filter(title__icontains=search)

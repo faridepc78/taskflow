@@ -25,9 +25,24 @@ class Project(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="categories",
+        null=True,
+        blank=True,
+    )
+    name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints: ClassVar = [
+            models.UniqueConstraint(
+                fields=("owner", "name"),
+                name="unique_category_name_per_owner",
+            )
+        ]
 
     def __str__(self):
         return self.name

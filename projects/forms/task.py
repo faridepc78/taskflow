@@ -1,9 +1,17 @@
 from django import forms
 
-from ..models import Task
+from ..models import Category, Task
 
 
 class TaskForm(forms.ModelForm):
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["categories"].queryset = (
+            Category.objects.filter(owner=user).order_by("name")
+            if user is not None
+            else Category.objects.none()
+        )
+
     class Meta:
         model = Task
 

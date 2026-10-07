@@ -1,4 +1,7 @@
+from typing import cast
+
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -8,7 +11,8 @@ from ..models import Category
 
 @login_required
 def category_list(request):
-    categories = Category.objects.all().order_by("name")
+    user = cast(User, request.user)
+    categories = Category.objects.filter(owner=user).order_by("name")
     page_obj = Paginator(categories, 20).get_page(request.GET.get("page"))
 
     return render(
@@ -22,11 +26,15 @@ def category_list(request):
 
 @login_required
 def category_create(request):
+    user = cast(User, request.user)
+
     if request.method == "POST":
         form = CategoryForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            category = form.save(commit=False)
+            category.owner = user
+            category.save()
 
             return redirect("projects:category-list")
     else:
@@ -44,9 +52,11 @@ def category_create(request):
 
 @login_required
 def category_update(request, pk):
+    user = cast(User, request.user)
     category = get_object_or_404(
         Category,
         pk=pk,
+        owner=user,
     )
 
     if request.method == "POST":
@@ -75,9 +85,11 @@ def category_update(request, pk):
 
 @login_required
 def category_delete(request, pk):
+    user = cast(User, request.user)
     category = get_object_or_404(
         Category,
         pk=pk,
+        owner=user,
     )
 
     if request.method == "POST":

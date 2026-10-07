@@ -49,8 +49,8 @@ class TaskAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name",)
-    search_fields = ("name",)
+    list_display = ("name", "owner")
+    search_fields = ("name", "owner__username", "owner__email")
 
 
 @admin.register(TaskAttachment)

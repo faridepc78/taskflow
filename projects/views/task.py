@@ -23,7 +23,7 @@ def task_create(request, project_pk):
     )
 
     if request.method == "POST":
-        form = TaskForm(request.POST)
+        form = TaskForm(request.POST, user=user)
 
         if form.is_valid():
             task = form.save(commit=False)
@@ -43,7 +43,7 @@ def task_create(request, project_pk):
                 pk=project.pk,
             )
     else:
-        form = TaskForm()
+        form = TaskForm(user=user)
 
     return render(
         request,
@@ -69,6 +69,7 @@ def task_update(request, pk):
         form = TaskForm(
             request.POST,
             instance=task,
+            user=user,
         )
 
         if form.is_valid():
@@ -86,7 +87,7 @@ def task_update(request, pk):
                 pk=task.project.pk,
             )
     else:
-        form = TaskForm(instance=task)
+        form = TaskForm(instance=task, user=user)
 
     return render(
         request,

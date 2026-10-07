@@ -20,3 +20,5 @@ Thumbs.db
 .ruff_cache/
 frontend/node_modules/
 .pytest_cache/
+
+celerybeat-schedule*

@@ -30,5 +30,12 @@ def activity_list(request):
         .distinct()
     )
 
-    page = Paginator(activities, 50).get_page(request.GET.get("page"))
-    return render(request, "projects/activity_list.html", {"page": page})
+    page_obj = Paginator(activities, 20).get_page(request.GET.get("page"))
+
+    return render(
+        request,
+        "projects/activity_list.html",
+        {
+            "page_obj": page_obj,
+        },
+    )

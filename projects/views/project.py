@@ -3,6 +3,7 @@ from typing import cast
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
@@ -170,12 +171,13 @@ def archived_projects(request):
     user = cast(User, request.user)
 
     projects = get_archived_projects_for_user(user)
+    page_obj = Paginator(projects, 12).get_page(request.GET.get("page"))
 
     return render(
         request,
         "projects/archived_projects.html",
         {
-            "projects": projects,
+            "page_obj": page_obj,
         },
     )
 

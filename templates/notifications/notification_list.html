@@ -40,7 +40,7 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body p-0">
 
-            {% for notification in notifications %}
+            {% for notification in page_obj.object_list %}
 
                 <div
                     class="p-4 border-bottom {% if not notification.is_read %}bg-body-tertiary{% endif %}"
@@ -114,6 +114,8 @@
 
         </div>
     </div>
+
+    {% include "includes/pagination.html" %}
 
 </div>
 

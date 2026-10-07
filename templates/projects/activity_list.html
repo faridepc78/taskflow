@@ -14,9 +14,9 @@
 
     <div class="card border-0 shadow-sm">
         <div class="card-body">
-            {% if page.object_list %}
+            {% if page_obj.object_list %}
                 <div class="list-group list-group-flush">
-                    {% for activity in page.object_list %}
+                    {% for activity in page_obj.object_list %}
                         <div class="list-group-item px-0 py-3">
                             <div class="d-flex justify-content-between gap-3">
                                 <div class="flex-grow-1">
@@ -26,6 +26,7 @@
                                         · {{ activity.subject_type }}
                                         {% if activity.subject_id %}#{{ activity.subject_id }}{% endif %}
                                     </div>
+
                                     {% if activity.changes %}
                                         <div class="mt-2 small">
                                             {% for field, values in activity.changes.items %}
@@ -39,21 +40,16 @@
                                         </div>
                                     {% endif %}
                                 </div>
-                                <small class="text-secondary text-nowrap">{{ activity.created_at|date:"M d, Y H:i" }}</small>
+
+                                <small class="text-secondary text-nowrap">
+                                    {{ activity.created_at|date:"M d, Y H:i" }}
+                                </small>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
 
-                {% if page.has_other_pages %}
-                    <nav class="mt-4">
-                        <ul class="pagination mb-0">
-                            {% if page.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ page.previous_page_number }}">Previous</a></li>{% endif %}
-                            <li class="page-item disabled"><span class="page-link">Page {{ page.number }} of {{ page.paginator.num_pages }}</span></li>
-                            {% if page.has_next %}<li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}">Next</a></li>{% endif %}
-                        </ul>
-                    </nav>
-                {% endif %}
+                {% include "includes/pagination.html" %}
             {% else %}
                 <p class="text-secondary mb-0">No activity yet.</p>
             {% endif %}

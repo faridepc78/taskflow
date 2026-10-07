@@ -3,6 +3,7 @@ from typing import cast
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
@@ -20,12 +21,14 @@ from .services import (
 @login_required
 def notification_list(request):
     user = cast(User, request.user)
+    notifications = get_notifications_for_user(user)
+    page_obj = Paginator(notifications, 20).get_page(request.GET.get("page"))
 
     return render(
         request,
         "notifications/notification_list.html",
         {
-            "notifications": get_notifications_for_user(user),
+            "page_obj": page_obj,
         },
     )
 

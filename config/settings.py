@@ -162,5 +162,14 @@ CELERY_BROKER_URL = os.getenv("REDIS_URL", "redis://127.0.0.1:6379/0")
 
 CELERY_RESULT_BACKEND = os.getenv("REDIS_URL", "redis://127.0.0.1:6379/0")
 
+CELERY_TIMEZONE = TIME_ZONE
+
+CELERY_BEAT_SCHEDULE = {
+    "task-deadline-notifications": {
+        "task": "notifications.tasks.create_scheduled_deadline_notifications",
+        "schedule": 3600.0,
+    },
+}
+
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "projects:dashboard"

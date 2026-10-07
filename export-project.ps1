@@ -51,6 +51,12 @@ Get-ChildItem $temp -Recurse -Force |
 Get-ChildItem $temp -Recurse -Force -Filter "*.pyc" |
     Remove-Item -Force
 
+$frontendNodeModules = Join-Path $temp "frontend\node_modules"
+
+if (Test-Path $frontendNodeModules) {
+    Remove-Item $frontendNodeModules -Recurse -Force
+}
+
 Compress-Archive -Path "$temp\*" -DestinationPath $output -Force
 
 Remove-Item $temp -Recurse -Force

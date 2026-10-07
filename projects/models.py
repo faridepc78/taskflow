@@ -26,6 +26,8 @@ class Project(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -112,6 +114,7 @@ class TaskAttachment(models.Model):
     )
     file = models.FileField(upload_to="task_attachments/%Y/%m/")
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     @property
     def filename(self) -> str:

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <title>{% block title %}TaskFlow{% endblock %}</title>
+    <style>
+        @media only screen and (max-width:600px) {
+            .email-outer { padding:24px 12px !important; }
+            .email-main { padding:30px 24px !important; }
+            .email-heading { font-size:28px !important; }
+            .email-code { font-size:30px !important; letter-spacing:7px !important; }
+        }
+    </style>
+</head>
+<body style="margin:0;padding:0;background-color:#f2f5ef;font-family:'Segoe UI',Arial,sans-serif;color:#203c2e;">
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;mso-hide:all;">{% block preheader %}An update from your TaskFlow workspace.{% endblock %}</div>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f2f5ef;">
+        <tr><td align="center" class="email-outer" style="padding:48px 20px;">
+            <table role="presentation" width="540" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:540px;">
+                <tr><td style="padding:0 0 26px 6px;font-size:27px;font-weight:700;letter-spacing:-1.5px;color:#176b53;">taskflow<span style="color:#72915d;">.</span></td></tr>
+                <tr><td style="background-color:#ffffff;border:1px solid #e0e8dc;border-radius:20px;overflow:hidden;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tr><td style="height:6px;background-color:#176b53;border-radius:20px 20px 0 0;"></td></tr>
+                        <tr><td class="email-main" style="padding:42px 40px;">
+                            {% block email_content %}{% endblock %}
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:30px;"><tr><td style="border-top:1px solid #e7ece3;padding-top:23px;font-size:12px;line-height:1.8;color:#7b8d7f;">Keep this code to yourself. TaskFlow will never ask you to share your password or verification code.</td></tr></table>
+                        </td></tr>
+                    </table>
+                </td></tr>
+                <tr><td align="center" style="padding:25px 15px 0;font-size:11px;line-height:1.9;color:#83907e;">A little more organized.<br>TaskFlow &middot; {% now "Y" %}</td></tr>
+            </table>
+        </td></tr>
+    </table>
+</body>
+</html>

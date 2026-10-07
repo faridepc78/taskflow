@@ -1,0 +1,118 @@
+{
+  "baseline": "taskflow-2026-10-07_16-29-02.zip",
+  "changed_existing_files": [
+    "accounts/tasks.py",
+    "static/css/app.css",
+    "static/js/kanban.js",
+    "templates/accounts/change_password.html",
+    "templates/accounts/forgot_password.html",
+    "templates/accounts/login.html",
+    "templates/accounts/profile.html",
+    "templates/accounts/register.html",
+    "templates/accounts/reset_password.html",
+    "templates/accounts/verify_email.html",
+    "templates/accounts/verify_password_reset.html",
+    "templates/base.html",
+    "templates/includes/pagination.html",
+    "templates/notifications/notification_list.html",
+    "templates/projects/_kanban_task_card.html",
+    "templates/projects/activity_list.html",
+    "templates/projects/archived_projects.html",
+    "templates/projects/attachment_form.html",
+    "templates/projects/category_confirm_delete.html",
+    "templates/projects/category_form.html",
+    "templates/projects/category_list.html",
+    "templates/projects/dashboard.html",
+    "templates/projects/project_confirm_delete.html",
+    "templates/projects/project_detail.html",
+    "templates/projects/project_form.html",
+    "templates/projects/task_confirm_delete.html",
+    "templates/projects/task_form.html"
+  ],
+  "added_files": [
+    "REDESIGN_NOTES.md",
+    "accounts/test_ui_redesign.py",
+    "frontend/.gitignore",
+    "frontend/README.md",
+    "frontend/THIRD_PARTY_NOTICES.txt",
+    "frontend/input.css",
+    "frontend/package.json",
+    "static/img/favicon.svg",
+    "static/js/app.js",
+    "static/js/theme-init.js",
+    "templates/emails/base.html",
+    "templates/emails/password_reset.html",
+    "templates/emails/verification.html",
+    "templates/includes/activity_item.html",
+    "templates/includes/brand.html",
+    "templates/includes/field.html",
+    "templates/includes/form_errors.html",
+    "templates/includes/icons.html",
+    "templates/includes/messages.html",
+    "templates/layouts/app.html",
+    "templates/layouts/auth.html"
+  ],
+  "unchanged_existing_files": 88,
+  "python_files_syntax_checked": 84,
+  "email_ast_contract": "PASS: original functions equal after stripping only html_message",
+  "django_suite_executed": false,
+  "reason": "Package install failed: network/DNS unavailable.",
+  "browser_checks": {
+    "scope": "Chromium static fixture render and mocked-endpoint UI checks, not Django/MySQL/Celery end-to-end tests",
+    "results": [
+      {
+        "test": "23 page/mail fixtures at 1440px: no document overflow or nested forms",
+        "result": "PASS"
+      },
+      {
+        "test": "23 page/mail fixtures at 768px: no document overflow or nested forms",
+        "result": "PASS"
+      },
+      {
+        "test": "23 page/mail fixtures at 390px: no document overflow or nested forms",
+        "result": "PASS"
+      },
+      {
+        "test": "23 page/mail fixtures at 360px: no document overflow or nested forms",
+        "result": "PASS"
+      },
+      {
+        "test": "Password visibility toggles without altering value or field name",
+        "result": "PASS"
+      },
+      {
+        "test": "Field validation errors are visible and attached to the input group",
+        "result": "PASS"
+      },
+      {
+        "test": "Mobile navigation opens, takes focus, and closes with Escape",
+        "result": "PASS"
+      },
+      {
+        "test": "Dark theme toggle works even when local storage is unavailable",
+        "result": "PASS"
+      },
+      {
+        "test": "Keyboard/touch move posts existing status endpoint with CSRF and updates progress/deadline",
+        "result": "PASS"
+      },
+      {
+        "test": "Failed status request restores the card and control; error is visible",
+        "result": "PASS"
+      },
+      {
+        "test": "Drag-and-drop survives dragend occurring before the server response",
+        "result": "PASS"
+      },
+      {
+        "test": "Existing active status filter is respected after a move",
+        "result": "PASS"
+      },
+      {
+        "test": "No browser JavaScript exceptions across the fixture checks",
+        "result": "PASS"
+      }
+    ],
+    "script_errors": []
+  }
+}

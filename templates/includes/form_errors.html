@@ -1,0 +1,2 @@
+{% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+{% if form.non_field_errors %}<div class="form-alert" role="alert"><svg class="icon" aria-hidden="true"><use href="#i-alert"></use></svg><div>{% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}</div></div>{% endif %}

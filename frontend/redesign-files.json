@@ -1,0 +1,250 @@
+{
+  "baseline": "taskflow-2026-10-07_16-29-02.zip",
+  "files": [
+    {
+      "path": "REDESIGN_NOTES.md",
+      "sha256": "b8eadc4a5f2f6f2f7c634dcf3a2ecc3538a26e7639c8c6795023d03be03f0fa7",
+      "operation": "add"
+    },
+    {
+      "path": "accounts/tasks.py",
+      "sha256": "59d5e7572348e44c0f620711e535a1c7eeaa640e82be30f818b888e0bc4a90fa",
+      "operation": "replace"
+    },
+    {
+      "path": "accounts/test_ui_redesign.py",
+      "sha256": "78bad421344281da255fbd254b840681c29ae9dfe270dd3f46d9ee72498f3e07",
+      "operation": "add"
+    },
+    {
+      "path": "frontend/.gitignore",
+      "sha256": "295aa1f18923880afebb2e08aa70a8c4f285cc52baea238b8d2864d10e45d825",
+      "operation": "add"
+    },
+    {
+      "path": "frontend/README.md",
+      "sha256": "96f22a0e5230057421991ed255ad606ce539de26dafadf24ebff0464ef3219ab",
+      "operation": "add"
+    },
+    {
+      "path": "frontend/THIRD_PARTY_NOTICES.txt",
+      "sha256": "60e0b68c0f35c078eef3a5d29419d0b03ff84ec1df9c3f9d6e39a519a5ae7985",
+      "operation": "add"
+    },
+    {
+      "path": "frontend/input.css",
+      "sha256": "7172c24b8c7692c52328a611e556853c8d2d7aef83a58349817a833b8366a5e4",
+      "operation": "add"
+    },
+    {
+      "path": "frontend/package.json",
+      "sha256": "98371f9a70cc821e687a37f25ea7e7e98ad0ee50ea869e27468b2d019c7dc33f",
+      "operation": "add"
+    },
+    {
+      "path": "frontend/redesign-verification.json",
+      "sha256": "d4564a256bf834dad56634f19b0d8e3973315ba142c83e3b51f45d756e8b101c",
+      "operation": "add"
+    },
+    {
+      "path": "static/css/app.css",
+      "sha256": "66a5c564197f7872fe2d959d18c193a46dc70b2f56b2d2acde55a312ab38cc7a",
+      "operation": "replace"
+    },
+    {
+      "path": "static/img/favicon.svg",
+      "sha256": "cd22e82037ef6c81e2117f23b9351bb62b24f420ff79d5e083a225183b4f4a46",
+      "operation": "add"
+    },
+    {
+      "path": "static/js/app.js",
+      "sha256": "89610b278fc9deac7c356b3f5e812cf80f562c1c41d7a517c7772bdf3286a9d3",
+      "operation": "add"
+    },
+    {
+      "path": "static/js/kanban.js",
+      "sha256": "4ddf3c5df86674d1e9ad206cec64888a6cae482bb5a9c47a1f4e0b7867e64fc9",
+      "operation": "replace"
+    },
+    {
+      "path": "static/js/theme-init.js",
+      "sha256": "f72663322817f1ccee78474dc33566a4603cd25c322cf4054266ad7131776d61",
+      "operation": "add"
+    },
+    {
+      "path": "templates/accounts/change_password.html",
+      "sha256": "93bd27a3133201a23843b87a22e08222348b3024afae71b427fc0532f0edfd34",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/accounts/forgot_password.html",
+      "sha256": "ae0c437b236ea2ae38851b13c388061ecb93c918ef73c77e49c1833bc6b6123c",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/accounts/login.html",
+      "sha256": "7fb658036d2385dde19f9e859e8adb9f2e9a01e5a3dbc1a5a90ebd6a2397b87a",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/accounts/profile.html",
+      "sha256": "b3d89de6f29d86782a40f1d1b775a1437a31793366830c79fb422835eb8cb839",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/accounts/register.html",
+      "sha256": "151de7f8c8ad39fb9b149cad1c5d0980ee1b7c4308414362bc651623f0fa9c00",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/accounts/reset_password.html",
+      "sha256": "9138af561213d2e32301f33df6064dc62bf1245e57ed6d26eadc4e0dcee7179f",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/accounts/verify_email.html",
+      "sha256": "79212891f22835e0d674663bab01738295bee11a495dceb6c051f327117cc88e",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/accounts/verify_password_reset.html",
+      "sha256": "aaf6c7205a043add6984f12dba42c0a3e22f10cd7c00e6a6cfcb97fad67eedf1",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/base.html",
+      "sha256": "2f94bc7d37430a69f68a74703c510ab7961f36ececbd50ab506e82db54a80d83",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/emails/base.html",
+      "sha256": "688108412cfed639f7b82d14d96c6b529f8b78267bf5fa1323937a862d5b578b",
+      "operation": "add"
+    },
+    {
+      "path": "templates/emails/password_reset.html",
+      "sha256": "fa7233b33fc91a11332e72fe125209dd93f64f86460c4773cf3f74f18bf402a8",
+      "operation": "add"
+    },
+    {
+      "path": "templates/emails/verification.html",
+      "sha256": "c84bcc4011f19b64411fbd4f04bf8f217cbcec73fc6c0aa6c91fd53bcce279ce",
+      "operation": "add"
+    },
+    {
+      "path": "templates/includes/activity_item.html",
+      "sha256": "75791f0304128ac1a9d944511c916db818401d560af78d7154ad62aa9e2110f5",
+      "operation": "add"
+    },
+    {
+      "path": "templates/includes/brand.html",
+      "sha256": "291e8be707a3f0cee5217013527ff925d84690badec2d55e1ba10ba265632b49",
+      "operation": "add"
+    },
+    {
+      "path": "templates/includes/field.html",
+      "sha256": "c135ba6a8c19fef75c1969119ec6638fc9b6dd85e6109cf9e3304e116918dfe9",
+      "operation": "add"
+    },
+    {
+      "path": "templates/includes/form_errors.html",
+      "sha256": "ad274d0d23806e66eeb9531472ec7f32a889259612ab8174673123b60a60e902",
+      "operation": "add"
+    },
+    {
+      "path": "templates/includes/icons.html",
+      "sha256": "c1f47cd618b26c2c8096fe6612156f1257707f120cca8614d1ddc36dbe76b90a",
+      "operation": "add"
+    },
+    {
+      "path": "templates/includes/messages.html",
+      "sha256": "19d86ef5b153ee5218ec116fda3d598a8a8eec50d8d9133b70a274f22cdbcd7c",
+      "operation": "add"
+    },
+    {
+      "path": "templates/includes/pagination.html",
+      "sha256": "ad110c2c501e78b2ecc742826d0c24f67bb238a34bb0750e511dc92085e5ba73",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/layouts/app.html",
+      "sha256": "4ea902d33f4965353908de564f22fdc67a1452413d61d9e3b16244b682e4106c",
+      "operation": "add"
+    },
+    {
+      "path": "templates/layouts/auth.html",
+      "sha256": "5728a5a41343161d1fc0f3901ab2effacc3673ec3729c1b830564f83879cba18",
+      "operation": "add"
+    },
+    {
+      "path": "templates/notifications/notification_list.html",
+      "sha256": "3d9d99aeed9f09023e0fd01e34fd5a42123098f578a81711d9765aa7920d7d8d",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/projects/_kanban_task_card.html",
+      "sha256": "f1047af29401b5eb16072d3f6b8e6841399744e1e1653e1ea120d330308571f0",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/projects/activity_list.html",
+      "sha256": "1e1e28a51c304e60e389a8e017528f73970700ea7653e6214241e48a08dcc755",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/projects/archived_projects.html",
+      "sha256": "0ead52b827005da95140cb1f5291c5ab4b0c9af893cfa37f2441777a9ad77385",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/projects/attachment_form.html",
+      "sha256": "078473b7695b543ba9557f59b463eb071271ff790045cd0d9ee725398415339f",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/projects/category_confirm_delete.html",
+      "sha256": "5d438c603f264571d1c3afb3433f921bd4488caef272e7a3954a74abedc72798",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/projects/category_form.html",
+      "sha256": "c7ed142dc5b4128e207abdb363d3b7f00a06f675b98d8935108ae01f08eb3a48",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/projects/category_list.html",
+      "sha256": "1c940becc77d4bd2c0c46a23a1d58f20e7a8514f5341ce87d21d465e2bcb30a5",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/projects/dashboard.html",
+      "sha256": "4f4162bf4513a2fe39d2b0fb8a136bd9b4f196e05545714a4c50775686216932",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/projects/project_confirm_delete.html",
+      "sha256": "ac117820a764544199b049bbdccdb003defea21136751687bd76cf8ec10dc011",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/projects/project_detail.html",
+      "sha256": "16ee0029440c49c8dc92689c6a6167f17bb87631839bf759c48f9040fe6ca993",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/projects/project_form.html",
+      "sha256": "cf15fec50c1aa35a874f19807470bbffb48998ff155db7f7a4d32be5bc35eed9",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/projects/task_confirm_delete.html",
+      "sha256": "14bd4d405b8c097cde2c7817e2b35f131641190106d5b26bc7d44f299a59b614",
+      "operation": "replace"
+    },
+    {
+      "path": "templates/projects/task_form.html",
+      "sha256": "492248703d59f04bd0122aacc836122674fbd1fef7d52c7ba8599fbf554f079b",
+      "operation": "replace"
+    }
+  ]
+}

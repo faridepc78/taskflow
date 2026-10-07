@@ -1,0 +1,9 @@
+<div class="toast-region" id="toast-region" aria-live="polite" aria-relevant="additions">
+    {% for message in messages %}
+        <div class="toast {% if message.level >= 40 %}toast-error{% elif message.level == 25 %}toast-success{% else %}toast-info{% endif %}" role="{% if message.level >= 40 %}alert{% else %}status{% endif %}">
+            <svg class="icon toast-icon" aria-hidden="true"><use href="{% if message.level >= 40 %}#i-alert{% else %}#i-check-circle{% endif %}"></use></svg>
+            <span>{{ message }}</span>
+            <button type="button" class="icon-button toast-close" aria-label="Dismiss notification" data-dismiss-toast><svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg></button>
+        </div>
+    {% endfor %}
+</div>

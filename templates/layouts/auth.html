@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body_class %}auth-body{% endblock %}
+{% block content %}
+<div class="auth-shell">
+    <aside class="auth-story" aria-label="Welcome to TaskFlow">
+        <a class="brand brand-inverse" href="{% url 'accounts:login' %}" aria-label="TaskFlow home">{% include "includes/brand.html" %}</a>
+        <div class="auth-story-copy"><span class="eyebrow">A CLEARER SPACE FOR YOUR WORK</span><h1>Good ideas.<br>Great flow<span>.</span></h1><p>Turn the things you want to do into the things you get done.</p></div>
+        <div class="auth-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="art-card art-card-back"><span class="art-tag">A little momentum</span><span class="art-card-title">One step at a time.</span><div class="art-progress"><span></span></div></div><div class="art-card art-card-front"><div class="flex items-center justify-between"><span class="art-check"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></span><span class="art-small">FEEL-GOOD PROGRESS</span></div><strong>Less scattered.<br>More accomplished.</strong><div class="art-task"><i></i><span>Make space for the big idea</span></div><div class="art-task"><i></i><span>Find your next small step</span></div><div class="art-task"><i></i><span>Enjoy the progress</span></div></div><span class="art-spark">✳</span></div>
+        <div class="auth-story-footer"><span>Thoughtful work starts here.</span><span>01 / YOUR WORKSPACE</span></div>
+    </aside>
+    <main class="auth-main" id="main-content" tabindex="-1">
+        <div class="auth-top"><a class="brand auth-mobile-brand" href="{% url 'accounts:login' %}">{% include "includes/brand.html" %}</a><button type="button" class="icon-button ml-auto" data-theme-toggle aria-label="Switch color theme"><svg class="icon theme-moon" aria-hidden="true"><use href="#i-moon"></use></svg><svg class="icon theme-sun" aria-hidden="true"><use href="#i-sun"></use></svg></button></div>
+        <div class="auth-form-wrap">{% block auth_content %}{% endblock %}</div>
+        <div class="auth-footer"><svg class="icon icon-small" aria-hidden="true"><use href="#i-shield"></use></svg><span>Your workspace, made personal.</span></div>
+    </main>
+</div>
+{% endblock %}

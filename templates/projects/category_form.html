@@ -1,61 +1,6 @@
-{% extends "base.html" %}
-
+{% extends "layouts/app.html" %}
 {% block title %}{{ title }} | TaskFlow{% endblock %}
-
-{% block content %}
-
-<div class="container py-5">
-
-    <div
-        class="card border-0 shadow-sm mx-auto"
-        style="max-width: 600px;"
-    >
-
-        <div class="card-body p-4 p-md-5">
-
-            <h2 class="fw-bold mb-4">
-                {{ title }}
-            </h2>
-
-            <form method="post" novalidate>
-                {% csrf_token %}
-
-                <div class="mb-4">
-
-                    <label class="form-label">
-                        Name
-                    </label>
-
-                    {{ form.name }}
-
-                    {% for error in form.name.errors %}
-                        <div class="text-danger small mt-1">
-                            {{ error }}
-                        </div>
-                    {% endfor %}
-
-                </div>
-
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                >
-                    Save
-                </button>
-
-                <a
-                    href="{% url 'projects:category-list' %}"
-                    class="btn btn-outline-secondary"
-                >
-                    Cancel
-                </a>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-
+{% block page_name %}Categories{% endblock %}
+{% block app_content %}
+<div class="page-heading"><div><span class="eyebrow">KEEP IT ORGANIZED</span><h1>{{ title }}</h1><p>A simple label. A little more clarity.</p></div><div class="page-actions"><a href="{% url 'projects:category-list' %}" class="button button-secondary"><svg class="icon" aria-hidden="true"><use href="#i-back"></use></svg><span>Go back</span></a></div></div><div class="editor-grid"><section class="surface editor-panel"><div class="panel-heading"><span class="panel-icon"><svg class="icon" aria-hidden="true"><use href="#i-edit"></use></svg></span><div><h2>Details</h2><p>Make it yours.</p></div></div><form method="post" class="tf-form" novalidate data-submit-state>{% csrf_token %}{% include "includes/form_errors.html" %}{% include "includes/field.html" with field=form.name label="Category name" %}<div class="form-footer"><a class="button button-secondary" href="{% url 'projects:category-list' %}">Cancel</a><button type="submit" class="button button-primary"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>Save changes</button></div></form></section><aside class="editor-note"><span class="note-icon"><svg class="icon" aria-hidden="true"><use href="#i-spark"></use></svg></span><h3>Small details.<br>Better flow.</h3><p>Use categories to connect related tasks across your workspace.</p><div class="note-divider"></div><p class="text-xs">You can always come back and make changes.</p></aside></div>
 {% endblock %}

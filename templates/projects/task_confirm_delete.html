@@ -1,47 +1,6 @@
-{% extends "base.html" %}
-
-{% block title %}Delete Task | TaskFlow{% endblock %}
-
-{% block content %}
-
-<div class="container py-5">
-
-    <div class="card border-0 shadow-sm mx-auto" style="max-width: 550px;">
-
-        <div class="card-body p-5 text-center">
-
-            <h2 class="fw-bold">
-                Delete task?
-            </h2>
-
-            <p class="text-secondary">
-                Are you sure you want to delete
-                <strong>{{ task.title }}</strong>?
-            </p>
-
-            <form method="post">
-                {% csrf_token %}
-
-                <button
-                    type="submit"
-                    class="btn btn-danger"
-                >
-                    Delete
-                </button>
-
-                <a
-                    href="{% url 'projects:detail' task.project.pk %}"
-                    class="btn btn-outline-secondary"
-                >
-                    Cancel
-                </a>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-
+{% extends "layouts/app.html" %}
+{% block title %}Delete task | TaskFlow{% endblock %}
+{% block page_name %}Delete task{% endblock %}
+{% block app_content %}
+<div class="confirm-wrap"><section class="surface confirm-card"><span class="confirm-icon"><svg class="icon" aria-hidden="true"><use href="#i-trash"></use></svg></span><span class="eyebrow">A QUICK CHECK</span><h1>Delete this task?</h1><p>This task and its attached files will be removed. This action cannot be undone.</p><div class="confirm-subject">{{ task.title }}</div><form method="post" data-submit-state>{% csrf_token %}<div class="flex flex-wrap justify-center gap-3"><a class="button button-secondary" href="{% url 'projects:detail' task.project.pk %}">Keep task</a><button class="button button-danger" type="submit"><svg class="icon" aria-hidden="true"><use href="#i-trash"></use></svg>Yes, delete task</button></div></form></section></div>
 {% endblock %}

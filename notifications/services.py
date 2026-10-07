@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 
+from .cache import invalidate_unread_count_cache
 from .models import Notification
 from .selectors import get_pending_tasks_with_deadline
 
@@ -46,13 +47,17 @@ def mark_notification_as_read(notification: Notification) -> None:
 
 
 def mark_all_notifications_as_read(user: User) -> int:
-    return Notification.objects.filter(
+    updated_count = Notification.objects.filter(
         user=user,
         is_read=False,
     ).update(
         is_read=True,
         read_at=timezone.now(),
     )
+
+    invalidate_unread_count_cache(user.id)
+
+    return updated_count
 
 
 def create_deadline_notifications(

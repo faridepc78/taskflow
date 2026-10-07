@@ -11,6 +11,7 @@ from django.dispatch import receiver
 
 from accounts.models import Profile
 
+from .cache import invalidate_dashboard_stats_cache
 from .middleware import get_current_actor
 from .models import Activity, Category, Project, Task, TaskAttachment
 
@@ -136,6 +137,20 @@ def _create_activity(instance, action, *, changes=None, description=None):
     )
 
 
+def _invalidate_dashboard_cache(instance) -> None:
+    if isinstance(instance, Project):
+        invalidate_dashboard_stats_cache(instance.owner_id)
+        return
+
+    if isinstance(instance, Task):
+        try:
+            owner_id = instance.project.owner_id
+        except Project.DoesNotExist:
+            return
+
+        invalidate_dashboard_stats_cache(owner_id)
+
+
 @receiver(pre_save)
 def capture_old_values(sender, instance, **kwargs):
     if sender not in TRACKED_MODELS or not instance.pk:
@@ -153,6 +168,8 @@ def capture_old_values(sender, instance, **kwargs):
 def log_model_save(sender, instance, created, **kwargs):
     if sender not in TRACKED_MODELS:
         return
+
+    _invalidate_dashboard_cache(instance)
 
     if created:
         _create_activity(instance, Activity.Action.CREATED)
@@ -178,6 +195,7 @@ def log_model_save(sender, instance, created, **kwargs):
 @receiver(post_delete)
 def log_model_delete(sender, instance, **kwargs):
     if sender in TRACKED_MODELS:
+        _invalidate_dashboard_cache(instance)
         _create_activity(instance, Activity.Action.DELETED)
 
 

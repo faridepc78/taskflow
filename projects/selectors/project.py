@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from django.db.models import Count, Q, QuerySet
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
+from ..cache import DASHBOARD_STATS_CACHE_TIMEOUT, get_dashboard_stats_cache_key
 from ..models import Project
 
 
@@ -43,6 +45,12 @@ def get_archived_projects_for_user(user: User) -> QuerySet[Project]:
 
 
 def get_dashboard_stats(user: User) -> dict:
+    cache_key = get_dashboard_stats_cache_key(user.id)
+    cached_stats = cache.get(cache_key)
+
+    if cached_stats is not None:
+        return cached_stats
+
     projects = Project.objects.filter(owner=user)
     today = timezone.localdate()
 
@@ -83,10 +91,18 @@ def get_dashboard_stats(user: User) -> dict:
 
     completion_rate = round((completed_tasks / total_tasks) * 100) if total_tasks else 0
 
-    return {
+    stats = {
         **task_stats,
         "completion_rate": completion_rate,
     }
+
+    cache.set(
+        cache_key,
+        stats,
+        timeout=DASHBOARD_STATS_CACHE_TIMEOUT,
+    )
+
+    return stats
 
 
 def get_project_activities(project: Project, *, limit: int = 30):

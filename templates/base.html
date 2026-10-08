@@ -18,7 +18,23 @@
     {% include "includes/messages.html" %}
     {% block content %}{% endblock %}
     <link rel="stylesheet" href="{% static 'css/date-picker.css' %}?v=1">
-    <script src="{% static 'js/app.js' %}?v=datepicker1" defer></script>
+    <link rel="stylesheet" href="{% static 'css/accessibility-and-dialog.css' %}?v=2">
+    <dialog id="delete-confirm-dialog" class="delete-dialog" aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-description">
+        <div class="delete-dialog-content">
+            <span class="eyebrow">CONFIRM DELETION</span>
+            <h2 id="delete-dialog-title">Delete item?</h2>
+            <p id="delete-dialog-description">This action cannot be undone.</p>
+            <p id="delete-dialog-subject" class="delete-dialog-subject"></p>
+            <form method="post" id="delete-dialog-form" data-submit-state>
+                {% csrf_token %}
+                <div class="delete-dialog-actions">
+                    <button type="button" class="button button-secondary" data-delete-cancel>Cancel</button>
+                    <button type="submit" class="button button-danger">Yes, delete</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+    <script src="{% static 'js/app.js' %}?v=deletion2" defer></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

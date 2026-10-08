@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.db import transaction
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
@@ -18,6 +19,7 @@ from ..selectors.task import DEADLINE_FILTERS, get_filtered_project_tasks
 from ..services import archive_project, log_activity, restore_project
 
 
+@transaction.atomic
 @login_required
 def project_create(request):
     user = cast(User, request.user)
@@ -105,6 +107,7 @@ def project_detail(request, pk):
     )
 
 
+@transaction.atomic
 @login_required
 def project_update(request, pk):
     user = cast(User, request.user)
@@ -144,6 +147,7 @@ def project_update(request, pk):
     )
 
 
+@transaction.atomic
 @login_required
 def project_delete(request, pk):
     user = cast(User, request.user)
@@ -182,6 +186,7 @@ def archived_projects(request):
     )
 
 
+@transaction.atomic
 @require_POST
 @login_required
 def project_archive(request, pk):
@@ -208,6 +213,7 @@ def project_archive(request, pk):
     return redirect("projects:dashboard")
 
 
+@transaction.atomic
 @require_POST
 @login_required
 def project_restore(request, pk):

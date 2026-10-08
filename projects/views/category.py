@@ -3,6 +3,7 @@ from typing import cast
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 
 from ..forms import CategoryForm
@@ -24,6 +25,7 @@ def category_list(request):
     )
 
 
+@transaction.atomic
 @login_required
 def category_create(request):
     user = cast(User, request.user)
@@ -50,6 +52,7 @@ def category_create(request):
     )
 
 
+@transaction.atomic
 @login_required
 def category_update(request, pk):
     user = cast(User, request.user)
@@ -83,6 +86,7 @@ def category_update(request, pk):
     )
 
 
+@transaction.atomic
 @login_required
 def category_delete(request, pk):
     user = cast(User, request.user)

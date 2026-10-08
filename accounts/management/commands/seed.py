@@ -8,17 +8,15 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         User = get_user_model()
 
-        first_name="farid"
-        last_name="shishebori"
+        first_name = "farid"
+        last_name = "shishebori"
         username = "faridepc78"
         email = "faridnewepc78@gmail.com"
         password = "1234f01234"
 
         if User.objects.filter(username=username).exists():
             self.stdout.write(
-                self.style.WARNING(
-                    f'Superuser "{username}" already exists. Skipped.'
-                )
+                self.style.WARNING(f'Superuser "{username}" already exists. Skipped.')
             )
             return
 
@@ -31,7 +29,5 @@ class Command(BaseCommand):
         )
 
         self.stdout.write(
-            self.style.SUCCESS(
-                f'Superuser "{username}" created successfully.'
-            )
+            self.style.SUCCESS(f'Superuser "{username}" created successfully.')
         )

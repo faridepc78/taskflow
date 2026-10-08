@@ -3,6 +3,7 @@ from typing import cast
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db import transaction
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
@@ -12,6 +13,7 @@ from ..selectors.task import get_attachment_for_user, get_task_for_user
 from ..services import log_activity
 
 
+@transaction.atomic
 @login_required
 def attachment_upload(request, task_pk):
     user = cast(User, request.user)
@@ -61,6 +63,7 @@ def attachment_upload(request, task_pk):
     )
 
 
+@transaction.atomic
 @require_POST
 @login_required
 def attachment_delete(request, pk):

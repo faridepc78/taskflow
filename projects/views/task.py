@@ -2,6 +2,7 @@ from typing import cast
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
@@ -13,6 +14,7 @@ from ..selectors.task import get_task_for_user
 from ..services import change_task_status, log_activity
 
 
+@transaction.atomic
 @login_required
 def task_create(request, project_pk):
     user = cast(User, request.user)
@@ -56,6 +58,7 @@ def task_create(request, project_pk):
     )
 
 
+@transaction.atomic
 @login_required
 def task_update(request, pk):
     user = cast(User, request.user)
@@ -101,6 +104,7 @@ def task_update(request, pk):
     )
 
 
+@transaction.atomic
 @login_required
 def task_delete(request, pk):
     user = cast(User, request.user)
@@ -136,6 +140,7 @@ def task_delete(request, pk):
     )
 
 
+@transaction.atomic
 @require_POST
 @login_required
 def task_change_status(request, pk):

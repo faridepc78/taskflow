@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.db import transaction
 
 from ..models import Profile
 
@@ -43,7 +44,8 @@ class ProfileForm(forms.ModelForm):
         self.user.email = self.cleaned_data["email"]
 
         if self.cleaned_data.get("remove_avatar") and profile.avatar:
-            profile.avatar.delete(save=False)
+            old_file = profile.avatar
+            transaction.on_commit(lambda: old_file.delete(save=False))
             profile.avatar = None
 
         if commit:

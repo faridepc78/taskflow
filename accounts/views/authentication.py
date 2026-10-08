@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
@@ -13,11 +14,23 @@ def login_view(request):
         form = LoginForm(request.POST)
 
         if form.is_valid():
+            identifier = form.cleaned_data["username"]
             user = authenticate(
                 request,
-                username=form.cleaned_data["username"],
+                username=identifier,
                 password=form.cleaned_data["password"],
             )
+            if user is None and "@" in identifier:
+                matches = User.objects.filter(email__iexact=identifier).values_list(
+                    "username", flat=True
+                )[:2]
+                usernames = list(matches)
+                if len(usernames) == 1:
+                    user = authenticate(
+                        request,
+                        username=usernames[0],
+                        password=form.cleaned_data["password"],
+                    )
 
             if user is None:
                 form.add_error(

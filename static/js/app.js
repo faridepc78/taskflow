@@ -120,6 +120,36 @@
         });
     });
 
+    const deleteDialog = document.getElementById("delete-confirm-dialog");
+    const deleteForm = document.getElementById("delete-dialog-form");
+    const deleteTitle = document.getElementById("delete-dialog-title");
+    const deleteDescription = document.getElementById("delete-dialog-description");
+    const deleteSubject = document.getElementById("delete-dialog-subject");
+    const openDeleteDialog = (url, name, kind) => {
+        if (!deleteDialog || !deleteForm || !url) return;
+        deleteForm.action = url;
+        deleteTitle.textContent = `Delete ${kind}?`;
+        deleteDescription.textContent = kind === "category"
+            ? "The category will be removed from tasks; tasks will stay."
+            : kind === "project"
+                ? "The project, its tasks and attachments will be permanently removed."
+                : "This action cannot be undone.";
+        deleteSubject.textContent = name;
+        deleteDialog.showModal();
+    };
+    document.querySelectorAll("[data-delete-url]").forEach((button) => {
+        button.addEventListener("click", () => openDeleteDialog(
+            button.dataset.deleteUrl, button.dataset.deleteName, button.dataset.deleteKind
+        ));
+    });
+    document.querySelectorAll("[data-delete-attachment]").forEach((button) => {
+        button.addEventListener("click", () => {
+            const form = button.closest("form");
+            openDeleteDialog(form?.action, button.getAttribute("aria-label") || "Attachment", "attachment");
+        });
+    });
+    deleteDialog?.querySelector("[data-delete-cancel]")?.addEventListener("click", () => deleteDialog.close());
+
     document.querySelectorAll("form[data-submit-state]").forEach((form) => {
         form.addEventListener("submit", (event) => {
             if (form.dataset.submitted === "true") { event.preventDefault(); return; }

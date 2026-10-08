@@ -1,0 +1,264 @@
+/* Larger readable type, including utility-sized labels and responsive UI. */
+html { font-size: 16px; }
+body { font-size: 16px; }
+body { font-size: 16px; }
+.eyebrow { font-size: 16px; }
+.button { font-size: 16px; }
+.button-small { font-size: 16px; }
+.avatar { font-size: 16px; }
+.badge { font-size: 16px; }
+.count-pill { font-size: 16px; }
+.workspace-initial { font-size: 16px; }
+.workspace-label strong { font-size: 16px; }
+.workspace-label div>span { font-size: 16px; }
+.nav-section-label { font-size: 16px; }
+.nav-link { font-size: 16px; }
+.nav-count { font-size: 16px; }
+.sidebar-note strong { font-size: 16px; }
+.sidebar-note>span { font-size: 16px; }
+.user-identity strong { font-size: 16px; }
+.user-identity small { font-size: 16px; }
+.topbar-workspace, .topbar-page { font-size: 16px; }
+.topbar-date { font-size: 16px; }
+.page-heading p { font-size: 16px; }
+.workspace-footer { font-size: 16px; }
+.hero-kicker { font-size: 16px; }
+.hero-copy p { font-size: 16px; }
+.hero-link { font-size: 16px; }
+.hero-progress>span { font-size: 16px; }
+.progress-ring small { font-size: 16px; }
+.stat-top>span:first-child { font-size: 16px; }
+.stat-card>small { font-size: 16px; }
+.section-heading p { font-size: 16px; }
+.project-card h3 { font-size: 16px; }
+.project-description { font-size: 16px; }
+.project-card-progress>div:first-child { font-size: 16px; }
+.project-card-progress strong { font-size: 16px; }
+.project-card-footer>.text-xs { font-size: 16px; }
+.empty-state p { font-size: 16px; }
+.pagination-bar>p { font-size: 16px; }
+.page-number { font-size: 16px; }
+.field-label { font-size: 16px; }
+.field-optional { font-size: 16px; }
+.tf-form input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]), .tf-form textarea, .tf-form select { font-size: 16px; }
+.tf-form input[type="file"]::file-selector-button { font-size: 16px; }
+.input-wrap:has(input[type="file"]) { font-size: 16px; }
+.field-help { font-size: 16px; }
+.field-errors { font-size: 16px; }
+.form-alert { font-size: 16px; }
+.panel-heading p { font-size: 16px; }
+.editor-note p { font-size: 16px; }
+.file-drop-panel>p { font-size: 16px; }
+.file-selection { font-size: 16px; }
+.checkbox-label { font-size: 16px; }
+.profile-summary>p { font-size: 16px; }
+.profile-facts>span { font-size: 16px; }
+.profile-facts>strong { font-size: 16px; }
+.confirm-card>p { font-size: 16px; }
+.confirm-subject { font-size: 16px; }
+.board-tab { font-size: 16px; }
+.board-progress { font-size: 16px; }
+.board-progress>strong { font-size: 16px; }
+.board-filters input:not([type="hidden"]), .board-filters select { font-size: 16px; }
+.board-filters .button { font-size: 16px; }
+.kanban-column-header h3 { font-size: 16px; }
+.kanban-count { font-size: 16px; }
+.task-number { font-size: 16px; }
+.task-card-top .badge { font-size: 16px; }
+.kanban-task-card h4 { font-size: 16px; }
+.kanban-task-description { font-size: 16px; }
+.task-tag { font-size: 16px; }
+.kanban-deadline { font-size: 16px; }
+.task-attachments { font-size: 16px; }
+.task-status-select { font-size: 16px; }
+.kanban-empty strong { font-size: 16px; }
+.kanban-empty small { font-size: 16px; }
+.list-panel-heading h2 { font-size: 16px; }
+.category-row h3 { font-size: 16px; }
+.activity-meta { font-size: 16px; }
+.activity-meta>span { font-size: 16px; }
+.activity-meta time { font-size: 16px; }
+.activity-description { font-size: 16px; }
+.activity-subject { font-size: 16px; }
+.change-details>summary { font-size: 16px; }
+.change-row { font-size: 16px; }
+.notification-content .eyebrow { font-size: 16px; }
+.notification-content h3 { font-size: 16px; }
+.notification-content>p { font-size: 16px; }
+.notification-content>time { font-size: 16px; }
+.read-state { font-size: 16px; }
+.auth-story-copy>.eyebrow { font-size: 16px; }
+.auth-story-copy>p { font-size: 16px; }
+.art-tag { font-size: 16px; }
+.art-small { font-size: 16px; }
+.art-task { font-size: 16px; }
+.auth-story-footer { font-size: 16px; }
+.auth-story-footer>span:last-child { font-size: 16px; }
+.auth-heading>p { font-size: 16px; }
+.auth-form-wrap .field-label { font-size: 16px; }
+.auth-switch { font-size: 16px; }
+.auth-footer { font-size: 16px; }
+.resend-panel p { font-size: 16px; }
+.resend-panel small { font-size: 16px; }
+.toast { font-size: 16px; }
+.auth-story-copy>p { font-size: 16px; }
+.topbar-page { font-size: 16px; }
+.page-heading p { font-size: 16px; }
+.eyebrow { font-size: 16px; }
+.hero-copy p { font-size: 16px; }
+.hero-kicker { font-size: 16px; }
+.hero-progress>span { font-size: 16px; }
+.progress-ring strong span { font-size: 16px; }
+.progress-ring small { font-size: 16px; }
+.stat-top>span:first-child { font-size: 16px; }
+.stat-card>small { font-size: 16px; }
+.project-card h3 { font-size: 16px; }
+.project-description { font-size: 16px; }
+.board-heading h2 { font-size: 16px; }
+.board-heading p { font-size: 16px; }
+.activity-description { font-size: 16px; }
+body { font-size: 16px; }
+.button { font-size: 16px; }
+.button-small { font-size: 16px; }
+.eyebrow { font-size: 16px; }
+.workspace-label strong, .user-identity strong { font-size: 16px; }
+.workspace-label div>span, .user-identity small { font-size: 16px; }
+.nav-section-label { font-size: 16px; }
+.nav-link { font-size: 16px; }
+.nav-count, .topbar-date { font-size: 16px; }
+.sidebar-note strong { font-size: 16px; }
+.sidebar-note>span { font-size: 16px; }
+.topbar-workspace, .topbar-page { font-size: 16px; }
+.page-heading p { font-size: 16px; }
+.workspace-footer { font-size: 16px; }
+.hero-kicker { font-size: 16px; }
+.hero-copy p { font-size: 16px; }
+.hero-link { font-size: 16px; }
+.badge { font-size: 16px; }
+.count-pill { font-size: 16px; }
+.project-description { font-size: 16px; }
+.board-heading p { font-size: 16px; }
+.activity-description { font-size: 16px; }
+.button { font-size: 16px; }
+.button-small { font-size: 16px; }
+.text-link { font-size: 16px; }
+.eyebrow,
+    .nav-section-label,
+    .workspace-label div>span,
+    .user-identity small,
+    .topbar-date,
+    .workspace-footer,
+    .hero-kicker,
+    .progress-ring small,
+    .task-number,
+    .activity-meta>span,
+    .activity-meta time,
+    .activity-subject,
+    .notification-content .eyebrow,
+    .notification-content>time,
+    .auth-story-copy>.eyebrow,
+    .art-tag,
+    .art-small,
+    .auth-story-footer,
+    .auth-story-footer>span:last-child,
+    .auth-footer,
+    .resend-panel small { font-size: 16px; }
+.badge,
+    .nav-count,
+    .count-pill,
+    .sidebar-note>span,
+    .hero-progress>span,
+    .stat-card>small,
+    .section-heading p,
+    .project-card-progress>div:first-child,
+    .project-card-progress strong,
+    .project-card-footer>.text-xs,
+    .pagination-bar>p,
+    .page-number,
+    .field-optional,
+    .input-wrap:has(input[type="file"]),
+    .field-help,
+    .file-selection,
+    .checkbox-label,
+    .profile-facts>span,
+    .breadcrumb-back,
+    .board-tab,
+    .board-progress,
+    .board-progress>strong,
+    .kanban-count,
+    .task-card-top .badge,
+    .task-tag,
+    .kanban-deadline,
+    .task-attachments,
+    .task-status-select,
+    .kanban-empty strong,
+    .kanban-empty small,
+    .activity-meta,
+    .change-details>summary,
+    .change-row,
+    .read-state,
+    .auth-switch,
+    .resend-panel p,
+    .toast { font-size: 16px; }
+.workspace-initial,
+    .workspace-label strong,
+    .user-identity strong,
+    .topbar-workspace,
+    .topbar-page,
+    .sidebar-note strong,
+    .stat-top>span:first-child,
+    .empty-state p,
+    .field-label,
+    .tf-form input[type="file"]::file-selector-button,
+    .panel-heading p,
+    .editor-note p,
+    .file-drop-panel>p,
+    .profile-summary>p,
+    .profile-facts>strong,
+    .confirm-card>p,
+    .board-heading p,
+    .kanban-column-header h3,
+    .kanban-task-description,
+    .notification-content>p,
+    .auth-story-copy>p,
+    .auth-heading>p { font-size: 16px; }
+.nav-link,
+    .page-heading p,
+    .hero-copy p,
+    .hero-link,
+    .project-description,
+    .confirm-subject,
+    .category-row h3,
+    .activity-description,
+    .notification-content h3,
+    .auth-form-wrap .field-label { font-size: 16px; }
+.tf-form input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+    .tf-form textarea,
+    .tf-form select,
+    .board-filters input:not([type="hidden"]),
+    .board-filters select,
+    .board-filters .button,
+    .kanban-task-card h4 { font-size: 16px; }
+body { font-size: 16px; }
+.topbar-page { font-size: 16px; }
+.page-heading p { font-size: 16px; }
+.eyebrow { font-size: 16px; }
+.hero-copy p { font-size: 16px; }
+.hero-kicker { font-size: 16px; }
+.hero-progress>span { font-size: 16px; }
+.progress-ring small { font-size: 16px; }
+.stat-top>span:first-child { font-size: 16px; }
+.stat-card>small { font-size: 16px; }
+.project-description { font-size: 16px; }
+.board-heading p { font-size: 16px; }
+.activity-description { font-size: 16px; }
+
+/* Tailwind small text utilities must remain readable. */
+.text-xs, .text-sm { font-size: 16px !important; }
+.delete-dialog { width: min(94vw, 480px); max-height: 90vh; padding: 0; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); color: var(--ink); box-shadow: 0 20px 65px #0004; }
+.delete-dialog::backdrop { background: rgb(8 20 14 / 65%); }
+.delete-dialog-content { padding: 30px; }
+.delete-dialog h2 { font-size: 24px; margin: 12px 0; }
+.delete-dialog p { font-size: 16px; line-height: 1.6; }
+.delete-dialog-subject { font-weight: 700; overflow-wrap: anywhere; margin: 18px 0; padding: 14px; border-radius: 9px; background: var(--surface-soft); }
+.delete-dialog-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 12px; }

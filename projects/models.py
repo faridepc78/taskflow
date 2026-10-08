@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
+from config.upload_paths import attachment_upload_path
+
 
 class Project(models.Model):
     name = models.CharField(max_length=150)
@@ -127,7 +129,7 @@ class TaskAttachment(models.Model):
         on_delete=models.CASCADE,
         related_name="attachments",
     )
-    file = models.FileField(upload_to="task_attachments/%Y/%m/")
+    file = models.FileField(upload_to=attachment_upload_path)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -4,6 +4,7 @@ from pathlib import Path
 
 from django.contrib.auth.models import User
 from django.core.exceptions import FieldDoesNotExist
+from django.db import transaction
 from django.db.models import Model
 from django.db.models.fields.files import FieldFile
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_save
@@ -124,9 +125,20 @@ def _create_activity(instance, action, *, changes=None, description=None):
 
     pretty_changes = _pretty_changes(instance, changes or {})
 
+    # Deletion signals may run during a cascading delete. The collector has
+    # already prepared SET_NULL updates for existing activities, so a newly
+    # created activity must not reference any object being deleted.
+    # Keep the immutable subject fields as the historical record instead.
+    if action == Activity.Action.DELETED:
+        project = None
+        task = None
+    else:
+        project = _project_for(instance)
+        task = _task_for(instance)
+
     Activity.objects.create(
-        project=_project_for(instance),
-        task=_task_for(instance),
+        project=project,
+        task=task,
         actor=get_current_actor(),
         action=action,
         subject_type=instance._meta.label,
@@ -202,7 +214,8 @@ def log_model_delete(sender, instance, **kwargs):
 @receiver(post_delete, sender=TaskAttachment)
 def delete_attachment_file(sender, instance, **kwargs):
     if instance.file:
-        Path(instance.file.path).unlink(missing_ok=True)
+        path = instance.file.path
+        transaction.on_commit(lambda: Path(path).unlink(missing_ok=True))
 
 
 @receiver(m2m_changed, sender=Task.categories.through)

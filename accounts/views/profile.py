@@ -3,12 +3,14 @@ from typing import cast
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db import transaction
 from django.shortcuts import redirect, render
 
 from ..forms import ProfileForm
 from ..models import Profile
 
 
+@transaction.atomic
 @login_required
 def profile(request):
     user = cast(User, request.user)

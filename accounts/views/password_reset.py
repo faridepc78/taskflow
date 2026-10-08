@@ -4,6 +4,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.shortcuts import redirect, render
+from django.utils.crypto import constant_time_compare
 from django.views.decorators.http import require_POST
 
 from ..forms import ForgotPasswordForm, ResetPasswordForm, VerifyPasswordResetForm
@@ -32,11 +33,16 @@ def forgot_password(request):
                     "No account was found with this email address.",
                 )
             else:
-                request.session["password_reset_email"] = user.email
+                cooldown_key = f"password_reset_otp_cooldown:{user.email}"
+                if cache.get(cooldown_key):
+                    form.add_error("email", "Please wait before requesting another code.")
+                else:
+                    request.session.pop("password_reset_verified", None)
+                    request.session.pop("password_reset_verified_email", None)
+                    request.session["password_reset_email"] = user.email
+                    send_password_reset_otp(user.email)
+                    return redirect("accounts:verify-password-reset")
 
-                send_password_reset_otp(user.email)
-
-                return redirect("accounts:verify-password-reset")
     else:
         form = ForgotPasswordForm()
 
@@ -71,7 +77,7 @@ def verify_password_reset(request):
                     "Verification code has expired.",
                 )
 
-            elif code != cached_otp:
+            elif not constant_time_compare(code, cached_otp):
                 attempts = cache.get(attempts_key, 0) + 1
 
                 cache.set(
@@ -98,6 +104,7 @@ def verify_password_reset(request):
 
             else:
                 request.session["password_reset_verified"] = True
+                request.session["password_reset_verified_email"] = email
 
                 cache.delete(otp_key)
                 cache.delete(attempts_key)
@@ -146,7 +153,7 @@ def reset_password(request):
     email = request.session.get("password_reset_email")
     is_verified = request.session.get("password_reset_verified")
 
-    if not email or not is_verified:
+    if not email or not is_verified or request.session.get("password_reset_verified_email") != email:
         return redirect("accounts:forgot-password")
 
     user = User.objects.filter(email__iexact=email).first()
@@ -154,6 +161,7 @@ def reset_password(request):
     if user is None:
         request.session.pop("password_reset_email", None)
         request.session.pop("password_reset_verified", None)
+        request.session.pop("password_reset_verified_email", None)
 
         return redirect("accounts:forgot-password")
 
@@ -174,6 +182,7 @@ def reset_password(request):
 
                 request.session.pop("password_reset_email", None)
                 request.session.pop("password_reset_verified", None)
+                request.session.pop("password_reset_verified_email", None)
 
                 messages.success(
                     request,

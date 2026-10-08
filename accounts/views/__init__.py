@@ -6,6 +6,7 @@ from .password_reset import (
     reset_password,
     verify_password_reset,
 )
+from .profile import avatar_view as avatar_view
 from .profile import profile
 from .registration import register, resend_registration_otp, verify_email
 

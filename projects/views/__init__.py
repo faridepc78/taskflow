@@ -1,5 +1,5 @@
 from .activity import activity_list
-from .attachment import attachment_delete, attachment_upload
+from .attachment import attachment_delete, attachment_download, attachment_upload
 from .category import (
     category_create,
     category_delete,
@@ -27,6 +27,7 @@ __all__ = [
     "activity_list",
     "archived_projects",
     "attachment_delete",
+    "attachment_download",
     "attachment_upload",
     "category_create",
     "category_delete",

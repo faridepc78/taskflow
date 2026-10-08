@@ -8,6 +8,7 @@ from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
 from ..forms import TaskForm
+from ..guards import require_active_project
 from ..models import Activity, Task
 from ..selectors.project import get_project_for_user
 from ..selectors.task import get_task_for_user
@@ -23,6 +24,8 @@ def task_create(request, project_pk):
         project_id=project_pk,
         user=user,
     )
+
+    require_active_project(project)
 
     if request.method == "POST":
         form = TaskForm(request.POST, user=user)
@@ -67,6 +70,8 @@ def task_update(request, pk):
         task_id=pk,
         user=user,
     )
+
+    require_active_project(task.project)
 
     if request.method == "POST":
         form = TaskForm(
@@ -114,6 +119,8 @@ def task_delete(request, pk):
         user=user,
     )
 
+    require_active_project(task.project)
+
     project_pk = task.project.pk
 
     if request.method == "POST":
@@ -150,6 +157,8 @@ def task_change_status(request, pk):
         task_id=pk,
         user=user,
     )
+
+    require_active_project(task.project)
 
     status = request.POST.get("status", "")
 

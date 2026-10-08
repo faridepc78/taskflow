@@ -23,9 +23,12 @@ def register(request):
                 "password": make_password(form.cleaned_data["password"]),
             }
 
-            send_registration_otp(form.cleaned_data["email"])
-
-            return redirect("accounts:verify-email")
+            email = form.cleaned_data["email"]
+            if cache.get(f"register_otp_cooldown:{email}"):
+                form.add_error("email", "Please wait before requesting another code.")
+            else:
+                send_registration_otp(email)
+                return redirect("accounts:verify-email")
 
     else:
         form = RegisterForm()

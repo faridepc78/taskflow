@@ -32,6 +32,11 @@ urlpatterns = [
         name="attachment-delete",
     ),
     path(
+        "attachments/<int:pk>/download/",
+        views.attachment_download,
+        name="attachment-download",
+    ),
+    path(
         "tasks/<int:pk>/status/",
         views.task_change_status,
         name="task-change-status",

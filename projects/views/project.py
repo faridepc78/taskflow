@@ -9,6 +9,7 @@ from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
 from ..forms import ProjectForm
+from ..guards import require_active_project
 from ..models import Activity, Task
 from ..selectors.project import (
     get_archived_projects_for_user,
@@ -117,6 +118,8 @@ def project_update(request, pk):
         user=user,
     )
 
+    require_active_project(project)
+
     if request.method == "POST":
         form = ProjectForm(
             request.POST,
@@ -156,6 +159,8 @@ def project_delete(request, pk):
         project_id=pk,
         user=user,
     )
+
+    require_active_project(project)
 
     if request.method == "POST":
         project.delete()

@@ -146,6 +146,7 @@ class AuthenticationAndPasswordTests(TestCase):
         session = self.client.session
         session["password_reset_email"] = "farid@example.com"
         session["password_reset_verified"] = True
+        session["password_reset_verified_email"] = "farid@example.com"
         session.save()
 
         response = self.client.post(

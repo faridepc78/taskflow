@@ -26,3 +26,9 @@ class ProjectForm(forms.ModelForm):
                 }
             ),
         }
+
+    def clean_name(self):
+        name = self.cleaned_data["name"].strip()
+        if not name:
+            raise forms.ValidationError("Project name cannot be empty.")
+        return name

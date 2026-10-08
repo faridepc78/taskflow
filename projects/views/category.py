@@ -3,7 +3,7 @@ from typing import cast
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404, redirect, render
 
 from ..forms import CategoryForm
@@ -31,16 +31,20 @@ def category_create(request):
     user = cast(User, request.user)
 
     if request.method == "POST":
-        form = CategoryForm(request.POST)
+        form = CategoryForm(request.POST, user=user)
 
         if form.is_valid():
             category = form.save(commit=False)
             category.owner = user
-            category.save()
-
-            return redirect("projects:category-list")
+            try:
+                with transaction.atomic():
+                    category.save()
+            except IntegrityError:
+                form.add_error("name", "A category with this name already exists.")
+            else:
+                return redirect("projects:category-list")
     else:
-        form = CategoryForm()
+        form = CategoryForm(user=user)
 
     return render(
         request,
@@ -66,14 +70,19 @@ def category_update(request, pk):
         form = CategoryForm(
             request.POST,
             instance=category,
+            user=user,
         )
 
         if form.is_valid():
-            form.save()
-
-            return redirect("projects:category-list")
+            try:
+                with transaction.atomic():
+                    form.save()
+            except IntegrityError:
+                form.add_error("name", "A category with this name already exists.")
+            else:
+                return redirect("projects:category-list")
     else:
-        form = CategoryForm(instance=category)
+        form = CategoryForm(instance=category, user=user)
 
     return render(
         request,

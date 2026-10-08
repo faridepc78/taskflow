@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.cache import cache
+from django.db import IntegrityError, transaction
 from django.shortcuts import redirect, render
 
 from ..forms import RegisterForm, VerifyEmailForm
@@ -78,29 +79,42 @@ def verify_email(request):
                     )
 
             else:
-                user = User(
-                    first_name=pending["first_name"],
-                    last_name=pending["last_name"],
-                    username=pending["username"],
-                    email=pending["email"],
-                    password=pending["password"],
-                )
-                user.save()
-
-                Profile.objects.create(user=user)
-
-                cache.delete(otp_key)
-                cache.delete(attempts_key)
-                cache.delete(cooldown_key)
-
-                del request.session["pending_registration"]
-
-                messages.success(
-                    request,
-                    "Account created successfully. You can now log in.",
-                )
-
-                return redirect("accounts:login")
+                if User.objects.filter(username__iexact=pending["username"]).exists():
+                    form.add_error(
+                        "code",
+                        "This username is no longer available. Please register again.",
+                    )
+                elif User.objects.filter(email__iexact=pending["email"]).exists():
+                    form.add_error(
+                        "code",
+                        "This email is already registered. Please register again.",
+                    )
+                else:
+                    try:
+                        with transaction.atomic():
+                            user = User(
+                                first_name=pending["first_name"],
+                                last_name=pending["last_name"],
+                                username=pending["username"],
+                                email=pending["email"],
+                                password=pending["password"],
+                            )
+                            user.save()
+                            Profile.objects.create(user=user)
+                    except IntegrityError:
+                        form.add_error(
+                            "code",
+                            "Account details are no longer available. Please register again.",
+                        )
+                    else:
+                        cache.delete(otp_key)
+                        cache.delete(attempts_key)
+                        cache.delete(cooldown_key)
+                        del request.session["pending_registration"]
+                        messages.success(
+                            request, "Account created successfully. You can now log in."
+                        )
+                        return redirect("accounts:login")
 
     else:
         form = VerifyEmailForm()

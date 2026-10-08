@@ -65,7 +65,7 @@ class RegisterForm(forms.Form):
     )
 
     def clean_username(self):
-        username = self.cleaned_data["username"]
+        username = self.cleaned_data["username"].strip()
 
         if User.objects.filter(username=username).exists():
             raise forms.ValidationError("This username is already taken.")
@@ -73,7 +73,7 @@ class RegisterForm(forms.Form):
         return username
 
     def clean_email(self):
-        email = self.cleaned_data["email"].lower()
+        email = self.cleaned_data["email"].strip().lower()
 
         if User.objects.filter(email__iexact=email).exists():
             raise forms.ValidationError("An account with this email already exists.")

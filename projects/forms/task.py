@@ -60,3 +60,9 @@ class TaskForm(forms.ModelForm):
                 }
             ),
         }
+
+    def clean_title(self):
+        title = self.cleaned_data["title"].strip()
+        if not title:
+            raise forms.ValidationError("Task title cannot be empty.")
+        return title

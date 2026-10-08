@@ -12,8 +12,8 @@ from django.urls import reverse
 
 from projects.models import Category, Project, Task
 
-from .models import Profile
-from .tasks import send_otp_email_task, send_password_reset_otp_email_task
+from ..models import Profile
+from ..tasks import send_otp_email_task, send_password_reset_otp_email_task
 
 TEST_CACHES = {
     "default": {

@@ -8,7 +8,7 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
-from .models import Category, Project, Task, TaskAttachment
+from ..models import Category, Project, Task, TaskAttachment
 
 TEST_CACHES = {
     "default": {

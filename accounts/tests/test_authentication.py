@@ -5,7 +5,7 @@ from django.core.cache import cache
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
-from .models import Profile
+from ..models import Profile
 
 TEST_CACHES = {
     "default": {

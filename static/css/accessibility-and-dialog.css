@@ -262,3 +262,13 @@ body { font-size: 16px; }
 .delete-dialog p { font-size: 16px; line-height: 1.6; }
 .delete-dialog-subject { font-weight: 700; overflow-wrap: anywhere; margin: 18px 0; padding: 14px; border-radius: 9px; background: var(--surface-soft); }
 .delete-dialog-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 12px; }
+
+/* Center the native modal despite Tailwind preflight resetting dialog margins. */
+.delete-dialog:modal {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    max-width: calc(100vw - 32px);
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+}

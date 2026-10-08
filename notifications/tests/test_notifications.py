@@ -8,8 +8,8 @@ from django.utils import timezone
 
 from projects.models import Project, Task
 
-from .models import Notification
-from .services import create_deadline_notifications
+from ..models import Notification
+from ..services import create_deadline_notifications
 
 TEST_CACHES = {
     "default": {

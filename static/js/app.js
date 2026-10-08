@@ -108,6 +108,18 @@
         });
     });
 
+    document.querySelectorAll("[data-date-picker]").forEach((button) => {
+        const input = document.getElementById(button.dataset.datePicker);
+        if (!input || input.type !== "date") return;
+        button.addEventListener("click", () => {
+            if (typeof input.showPicker === "function") {
+                try { input.showPicker(); return; } catch (_) { /* Browser fallback */ }
+            }
+            input.focus();
+            input.click();
+        });
+    });
+
     document.querySelectorAll("form[data-submit-state]").forEach((form) => {
         form.addEventListener("submit", (event) => {
             if (form.dataset.submitted === "true") { event.preventDefault(); return; }
